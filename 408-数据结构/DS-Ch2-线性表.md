@@ -263,3 +263,122 @@ LinkList MergeDesc(LinkList A, LinkList B) {
 ---
 
 > 🔗 上一章：[[DS-Ch1-绪论]] | 下一章：[[DS-Ch3-栈和队列]] | [[DS-大题模板]]
+
+---
+
+## 🎯 力扣推荐（核心必刷）
+
+> 💡 你有编程基础，这些题不要只"做一遍"，而是每道题用**2-3种写法**实现，对比408考点与工程实现的差异。
+
+| 题目 | 难度 | 推荐理由 | 408考点关联 |
+|------|------|----------|------------|
+| [206. 反转链表](https://leetcode.cn/problems/reverse-linked-list/) | 简单 | 408最高频大题模板 | 三指针逆置（DS-大题模板1） |
+| [21. 合并两个有序链表](https://leetcode.cn/problems/merge-two-sorted-lists/) | 简单 | 归并思想基础 | 两路归并模板（DS-大题模板3） |
+| [141. 环形链表](https://leetcode.cn/problems/linked-list-cycle/) | 简单 | 快慢指针 | 408选择题常考"判断链表是否有环" |
+| [160. 相交链表](https://leetcode.cn/problems/intersection-of-two-linked-lists/) | 简单 | 双指针技巧 | 链表操作的综合运用 |
+| [83. 删除排序链表中的重复元素](https://leetcode.cn/problems/remove-duplicates-from-sorted-list/) | 简单 | 链表的遍历与删除 | 与408中"删除所有值为x的结点"异曲同工 |
+| [876. 链表的中间结点](https://leetcode.cn/problems/middle-of-the-linked-list/) | 简单 | 快慢指针 | 快慢指针是408大题常见技巧 |
+| [19. 删除链表的倒数第 N 个结点](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/) | 中等 | 双指针经典 | 408中链表删除的综合运用 |
+| [2. 两数相加](https://leetcode.cn/problems/add-two-numbers/) | 中等 | 链表遍历+进位 | 408中链表的实际操作题 |
+| [24. 两两交换链表中的节点](https://leetcode.cn/problems/swap-nodes-in-pairs/) | 中等 | 指针操作 | 408中"链表原地重排"的变体 |
+| [142. 环形链表 II](https://leetcode.cn/problems/linked-list-cycle-ii/) | 中等 | 快慢指针+数学推导 | 408中链表与数学的结合题 |
+| [82. 删除排序链表中的重复元素 II](https://leetcode.cn/problems/remove-duplicates-from-sorted-list-ii/) | 中等 | 双指针/递归 | 408"删除重复元素"的进阶 |
+| [143. 重排链表](https://leetcode.cn/problems/reorder-list/) | 中等 | 找中点+反转+合并 | 三步组合题，与408大题思路一致 |
+
+### 刷题策略（针对有编程基础者）
+
+```
+第1轮（3天）: 206 → 21 → 83 → 141 → 160 → 876 → 19
+             重点：链表基本操作的手速和正确性
+第2轮（2天）: 2 → 24 → 82 → 142 → 143
+             重点：复杂场景下指针的精细控制
+第3轮（1天）: 每道题尝试 递归/非递归 两种写法
+             重点：加深对链表本质的理解
+```
+
+### 🔥 408与力扣的差异点
+
+| 方面 | 力扣（工程风格） | 408（考试风格） |
+|------|-----------------|-----------------|
+| 头结点 | 通常无头结点 | **带头结点**是默认约定 |
+| 函数签名 | `ListNode* reverseList(ListNode* head)` | `void Reverse(LinkList L)` — L是头指针 |
+| 返回值 | 返回新头指针 | 通常void，直接修改链表 |
+| 空间要求 | 通常无限制 | 经常要求 **O(1)空间** |
+| 下标起始 | 0-based | 408插入删除常用 **1-based 位序** |
+
+> ⚠️ **重要**：做力扣题后，**用408的风格重写一遍**。例如206反转链表，力扣返回新头，而408的`Reverse(LinkList L)`直接修改带头结点的链表。两种写法都要会。
+
+---
+
+## 📖 教材补充：顺序表插入/删除的位置与复杂度细节
+
+### 插入操作
+
+在顺序表第 i（1<=i<=L.length+1）个位置插入新元素 e：
+- 移动次数：若在表尾插入（i=n+1），移动 0 次；在表头插入（i=1），移动 n 次
+- **平均移动次数** = n/2
+
+### 删除操作
+
+删除第 i（1<=i<=L.length）个位置的元素：
+- 移动次数：删除表尾（i=n）移动 0 次；删除表头（i=1）移动 n-1 次
+- **平均移动次数** = (n-1)/2
+
+### 关于 realloc
+
+在408代码题中，**通常不要求实现扩容逻辑**。顺序表被简化为一个定长数组 + length 变量。
+
+---
+
+## 📖 教材补充：带头结点 vs 不带头结点的链表
+
+| 场景 | 带头结点 | 不带头结点 |
+|------|----------|------------|
+| 空表判断 | `L->next == NULL` | `L == NULL` |
+| 插入/删除第一个元素 | 与一般位置代码一致 | 需特殊处理头指针 |
+| 408大题默认 | ✅ **默认使用** | 只在题目明确时使用 |
+| 力扣默认 | ❌ 不带头结点 | ✅ 默认 |
+
+> **408答题建议**：除非题目明确说"不带头结点"，一律用带头结点的写法。
+
+---
+
+## 🔥 408新题补充
+
+### 有序链表去重
+
+```c
+void RemoveDuplicates(LinkList L) {
+    LNode *p = L->next;
+    while (p != NULL && p->next != NULL) {
+        if (p->data == p->next->data) {
+            LNode *q = p->next;
+            p->next = q->next;
+            free(q);
+        } else {
+            p = p->next;
+        }
+    }
+}
+// 时间 O(n)，空间 O(1)
+```
+
+### 判断链表是否有环（快慢指针）
+
+```c
+int HasCycle(LinkList L) {
+    LNode *fast = L->next;
+    LNode *slow = L->next;
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast) return 1;
+    }
+    return 0;
+}
+// 时间 O(n)，空间 O(1)
+```
+
+---
+
+> 🔗 上一章：[[DS-Ch1-绪论]] | 下一章：[[DS-Ch3-栈和队列]] | [[DS-大题模板]]
