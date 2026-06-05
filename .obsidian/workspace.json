@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "5881cdf06b515330",
+        "id": "54ed25b53e38c6e2",
         "type": "tabs",
         "children": [
           {
-            "id": "8938e1851500c82c",
+            "id": "2d1fa3514d633995",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "408-数据结构/DS-Ch4-串.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "DS-Ch4-串"
+              "title": "新标签页"
             }
           }
         ]
@@ -183,24 +179,43 @@
       "bases:新建数据库": false
     }
   },
-  "active": "c9295596ef414fea",
+  "active": "2d1fa3514d633995",
   "lastOpenFiles": [
-    "408-数据结构/DS-Ch6-图.md",
-    "408-数据结构/DS-Ch7-查找.md",
-    "408-数据结构/DS-Ch8-排序.md",
-    "408-数据结构/DS-408真题分类汇总.md",
-    "408-数据结构/DS-Ch4-串.md",
-    "408-数据结构/DS-Ch3-栈和队列.md",
-    "408-数据结构/DS-Ch2-线性表.md",
-    "408-数据结构/DS-Ch1-绪论.md",
-    "408-数据结构/DS-复杂度速查.md",
-    "408-数据结构/DS-大题模板.md",
-    "408-数据结构/DS-MOC-数据结构总览.md",
-    "408-数据结构/DS-Methodology-笔记生成方法论.md",
-    "408-数据结构/DS-Ch5-树与二叉树.md",
-    "408-数据结构/第7章 查找.pdf",
-    "408-数据结构/第8章 排序.pdf",
-    "408-数据结构/目   录.pdf",
-    "408-数据结构/第6章 图.pdf"
+    "408-数据结构/output_chapters/历年真题_第2章_线性表.md",
+    "408-数据结构/output_chapters/11_第7章 查找.md",
+    "408-数据结构/output_chapters/12_第8章 排序.md",
+    "408-数据结构/output_chapters/10_第6章 图.md",
+    "408-数据结构/output_chapters/11_第7章 查找.pdf",
+    "408-数据结构/output_chapters/12_第8章 排序.pdf",
+    "408-数据结构/output_chapters/历年真题_第1章_绪论.md",
+    "408-复习笔记/OS-Ch5-IO管理.md",
+    "408-数据结构/output_chapters/历年真题_第8章_排序.pdf",
+    "408-数据结构/output_chapters/历年真题_第7章_查找.pdf",
+    "408-数据结构/output_chapters/历年真题_第6章_图.pdf",
+    "408-数据结构/output_chapters/历年真题_第5章_树与二叉树.pdf",
+    "408-数据结构/output_chapters/历年真题_第3章_栈、队列和数组.pdf",
+    "408-数据结构/output_chapters/历年真题_第2章_线性表.pdf",
+    "408-数据结构/output_chapters/历年真题_第1章_绪论.pdf",
+    "408-数据结构/output_chapters/历年真题_第4章_串.pdf",
+    "408-数据结构/output_chapters/历年真题_第8章_排序.md",
+    "408-数据结构/output_chapters/历年真题_第7章_查找.md",
+    "408-数据结构/output_chapters/历年真题_第6章_图.md",
+    "408-数据结构/output_chapters/历年真题_第5章_树与二叉树.md",
+    "408-数据结构/output_chapters/历年真题_第4章_串.md",
+    "408-数据结构/output_chapters/历年真题_第3章_栈、队列和数组.md",
+    "408-复习笔记/OS-Ch3-内存管理.md",
+    "408-复习笔记/408-大纲-OS.md",
+    "408-复习笔记/408-复习笔记-MOC.md",
+    "408-复习笔记/计组-Ch1-计算机系统概述.md",
+    "408-复习笔记/OS-Ch4-文件管理.md",
+    "408-复习笔记/OS-Ch2-进程管理.md",
+    "408-复习笔记/OS-Ch1-操作系统概述.md",
+    "408-复习笔记/计组-Ch7-输入输出系统.md",
+    "408-复习笔记/计组-Ch6-总线.md",
+    "408-复习笔记/计组-Ch5-中央处理器.md",
+    "408-复习笔记/计组-Ch4-指令系统.md",
+    "408-复习笔记/计组-Ch3-存储系统.md",
+    "408-复习笔记/计组-Ch2-数据的表示和运算.md",
+    "408-数据结构/DS-Ch1-绪论.md"
   ]
 }
