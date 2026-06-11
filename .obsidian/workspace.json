@@ -13,30 +13,25 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "408-数据结构/DS-Ch5-树与二叉树.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "DS-Ch5-树与二叉树"
-            }
-          },
-          {
-            "id": "4b8f81e1177fbdc2",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "408-复习笔记/计组-Ch2-数据的表示和运算.md",
+                "file": "概率论/概率论七大分布公式速查手册.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "计组-Ch2-数据的表示和运算"
+              "title": "概率论七大分布公式速查手册"
+            }
+          },
+          {
+            "id": "24184fefec9ce595",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "新标签页"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -198,34 +193,35 @@
       "bases:新建数据库": false
     }
   },
-  "active": "4b8f81e1177fbdc2",
+  "active": "39c61c632375ca91",
   "lastOpenFiles": [
+    "概率论/公式总纲.md",
+    "408-数据结构/K-树.md",
+    "408-数据结构/DS-Ch5-树与二叉树.md",
+    "408-数据结构/K-图.md",
+    "408-数据结构/DS-Ch2-线性表.md",
+    "408-数据结构/output_chapters/历年真题_第5章_树与二叉树.pdf",
+    "408-数据结构/output_chapters/历年真题_第5章_树与二叉树.md",
+    "408-复习笔记/OS-Ch2-进程管理.md",
+    "408-复习笔记/计组-Ch5-中央处理器.md",
+    "概率论/概率论七大分布公式速查手册.md",
+    "408-数据结构/DS-复杂度速查.md",
+    "408-数据结构/DS-Ch6-图.md",
+    "408-数据结构/output_chapters/历年真题_第6章_图.pdf",
+    "408-数据结构/output_chapters/历年真题_第6章_图.md",
     "408-复习笔记/计组-Ch3-存储系统.md",
+    "408-复习笔记/计组-Ch4-指令系统.md",
+    "408-复习笔记/计组-Ch2-数据的表示和运算.md",
     "408-复习笔记/408-复习笔记-MOC.md",
     "408-复习笔记/408-计组-操作系统-复习笔记.md",
     "408-复习笔记/高频公式汇总.md",
     "408-复习笔记/复习建议.md",
-    "408-复习笔记/OS-Ch2-进程管理.md",
     "408-复习笔记/计组-Ch1-计算机系统概述.md",
     "408-复习笔记/OS-Ch1-操作系统概述.md",
-    "概率论/概率论七大分布公式速查手册.md",
-    "概率论/公式总纲.md",
-    "408-数据结构/K-树.md",
     "概率论/数理统计_三大抽样分布与统计量.md",
     "概率论/数理统计_假设检验.md",
     "概率论/数理统计_参数估计.md",
-    "408-数据结构/DS-Ch5-树与二叉树.md",
-    "408-数据结构/DS-Ch2-线性表.md",
     "408-数据结构/各章分析.md",
-    "408-数据结构/DS-复杂度速查.md",
-    "408-数据结构/DS-大题模板.md",
-    "408-数据结构/DS-Ch8-排序.md",
-    "408-数据结构/DS-Ch7-查找.md",
-    "408-数据结构/DS-Methodology-笔记生成方法论.md",
-    "408-数据结构/DS-MOC-数据结构总览.md",
-    "408-数据结构/DS-Ch6-图.md",
-    "408-数据结构/DS-Ch4-串.md",
-    "408-数据结构/DS-408真题分类汇总.md",
     "408-数据结构/408-数据结构综合笔记.pdf",
     "408-数据结构/output_chapters/历年真题_第1章_绪论.pdf",
     "概率论",
@@ -233,8 +229,6 @@
     "408-数据结构/output_chapters/历年真题_第3章_栈、队列和数组.pdf",
     "408-数据结构/output_chapters/历年真题_第2章_线性表.pdf",
     "408-数据结构/output_chapters/11_第7章 查找.pdf",
-    "408-数据结构/output_chapters/12_第8章 排序.pdf",
-    "408-数据结构/output_chapters/历年真题_第8章_排序.pdf",
-    "408-数据结构/output_chapters/历年真题_第7章_查找.pdf"
+    "408-数据结构/output_chapters/12_第8章 排序.pdf"
   ]
 }
