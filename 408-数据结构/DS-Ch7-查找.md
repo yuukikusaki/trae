@@ -252,6 +252,70 @@ BSTNode* BST_Search_Iter(BSTNode *root, int key) {
 
 ---
 
+## 7.6.1 二叉树类结构：增删改查对比表 ⭐
+
+> 📌 BST 与 AVL 的操作对比，408 选择题高频辨析。
+
+| 操作 | 二叉排序树 BST | 平衡二叉树 AVL |
+|------|---------------|---------------|
+| **查找** | $O(h)$，最好 $O(\log n)$，最坏 **$O(n)$**（退化为链表） | **$O(\log n)$** 稳定（严格平衡） |
+| **插入** | 先查找插入位置 → 叶结点插入，$O(h)$ | 先 BST 插入 → 向上回溯**调整平衡**（LL/RR/LR/RL 旋转），$O(\log n)$ |
+| **删除** | 分三种情况：①叶结点直接删 ②单子结点替上去 ③双子结点用前驱/后继替换后转为①②，$O(h)$ | 先 BST 删除 → 向上回溯**调整平衡**，$O(\log n)$ |
+| **修改** | 无直接修改；本质 = **删除旧值 + 插入新值**，$O(h)$ | 同 BST：删除旧值 + 插入新值（两次旋转），$O(\log n)$ |
+| **建树** | $n$ 次插入：最好 $O(n\log n)$，最坏 **$O(n^2)$**（插入有序序列时退化为链表） | $n$ 次带旋转的插入：$O(n\log n)$ 稳定 |
+
+### 操作细节速览
+
+| 操作 | BST 核心逻辑 | AVL 额外步骤 |
+|------|------------|------------|
+| **插入** | 比较 key 大小，递归/迭代找到叶结点位置 | 插入后逐层回溯，计算平衡因子（左高-右高），若 >1 或 <-1 触发相应旋转 |
+| **查找** | `key<root→左，key>root→右，=→命中` | **同 BST**（AVL 也是 BST，查找逻辑完全一致） |
+| **删除** | ①无子→直接删 ②单子→子替父 ③双子→找中序后继替换，转为删后继 | 删除后同样逐层回溯调整平衡，可能引发 $O(\log n)$ 次旋转（比插入旋转多） |
+| **旋转类型** | — | LL（右单旋）、RR（左单旋）、LR（先左后右）、RL（先右后左） |
+
+### 🔥 408 陷阱
+
+| 说法 | 对/错 | 解释 |
+|------|--------|------|
+| "AVL 查找比 BST 快" | ❌ 不完全对 | 平衡时一样，BST 退化后才比 AVL 慢 |
+| "AVL 删除一定比 BST 删除慢" | ✅ | BST 删除只需 $O(h)$，AVL 删除后还需旋转调平衡 |
+| "AVL 每插入一个结点最多旋转一次" | ✅ | 插入引起的失衡，一次旋转即可恢复（删除可能需要多次） |
+| "有序序列依次插入 BST 能得到完全二叉树" | ❌ | 有序序列插入 BST → **退化为链表**！要想完全二叉树需每次取中位数 |
+| "任何 n 个结点的 BST 查找都是 O(log n)" | ❌ | BST 不保证平衡，最坏 O(n) |
+
+### 代码速写：BST vs AVL 插入对比
+
+```c
+// BST 插入 — 只管插，不管平衡
+BSTNode* BST_Insert(BSTNode *root, int key) {
+    if (!root) {                    // 找到空位，创建新结点
+        BSTNode *node = malloc(sizeof(BSTNode));
+        node->key = key; node->left = node->right = NULL;
+        return node;
+    }
+    if (key < root->key)
+        root->left = BST_Insert(root->left, key);
+    else if (key > root->key)
+        root->right = BST_Insert(root->right, key);
+    return root;                    // BST：直接返回，不调平衡
+}
+
+// AVL 插入 — 插后旋转调平衡（伪代码，详见DS-Ch5）
+// AVLNode* AVL_Insert(AVLNode *root, int key) {
+//     ... BST 插入逻辑 ...
+//     //==408考点== 关键区别：回溯时更新高度 + 判断平衡因子 + 旋转
+//     root->height = 1 + max(height(L), height(R));
+//     int balance = height(L) - height(R);  // 平衡因子
+//     if (balance > 1)  → LL 或 LR
+//     if (balance < -1) → RR 或 RL
+//     return root;
+// }
+```
+
+> 💡 **一句话总结**：AVL = BST + 平衡因子约束 + 旋转调整。操作逻辑同 BST，仅多了自平衡步骤。
+
+---
+
 ## 7.7 B 树（408 大题重点）
 
 ### 7.7.1 m 阶 B 树定义
