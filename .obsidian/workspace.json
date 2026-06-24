@@ -47,7 +47,8 @@
               "title": "K-查找"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -209,13 +210,15 @@
       "bases:新建数据库": false
     }
   },
-  "active": "3334aed13b6d7050",
+  "active": "c010e28b7f789936",
   "lastOpenFiles": [
+    "english_reading/vocab_spelling.html",
+    "english_reading/作文单词背诵计划.md",
+    "408-数据结构/output_chapters/历年真题_第7章_查找.pdf",
     "408-数据结构/K-查找.md",
     "408-数据结构/K-图.md",
     "408-数据结构/K-树.md",
     "408-数据结构/K-排序.md",
-    "408-数据结构/output_chapters/历年真题_第7章_查找.pdf",
     "概率论/概率.pdf",
     "线性代数/06二次型.pdf",
     "线性代数/特征值相关知识点整理.md",
@@ -243,7 +246,6 @@
     "408-数据结构/DS-Ch5-树与二叉树.md",
     "408-复习笔记/OS-Ch2-进程管理.md",
     "概率论/概率论七大分布公式速查手册.md",
-    "408-数据结构/DS-复杂度速查.md",
     "408-数据结构/output_chapters/历年真题_第6章_图.pdf",
     "概率论"
   ]

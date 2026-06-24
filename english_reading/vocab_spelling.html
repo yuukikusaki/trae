@@ -1,0 +1,5325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>考研英语词汇拼写练习</title>
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif; font-size: 15px; color: #333; background: #f0f2f5; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; font-family: inherit; }
+input { font-family: inherit; }
+
+/* ===== Layout ===== */
+.app-container { display: flex; height: 100vh; overflow: hidden; }
+
+/* ===== Sidebar ===== */
+.sidebar {
+  width: 300px; min-width: 300px; background: #fff;
+  border-right: 1px solid #e0e0e0; display: flex; flex-direction: column;
+  overflow: hidden; box-shadow: 2px 0 8px rgba(0,0,0,0.05); z-index: 10;
+}
+.sidebar-header {
+  padding: 18px 20px; background: linear-gradient(135deg, #1a73e8, #1557b0);
+  color: #fff; font-size: 17px; font-weight: 700; letter-spacing: 0.5px;
+  display: flex; align-items: center; gap: 10px;
+}
+.sidebar-header .icon { font-size: 22px; }
+.sidebar-nav { flex: 1; overflow-y: auto; padding: 8px 0; }
+.sidebar-nav::-webkit-scrollbar { width: 6px; }
+.sidebar-nav::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+.nav-all {
+  display: flex; align-items: center; padding: 12px 20px; margin: 4px 10px;
+  border-radius: 8px; cursor: pointer; transition: all 0.15s; font-weight: 600;
+  font-size: 15px; color: #1a73e8; border: 2px solid #1a73e8;
+  justify-content: space-between; background: #e8f0fe;
+}
+.nav-all:hover { background: #d2e3fc; }
+.nav-all .count { 
+  background: #1a73e8; color: #fff; font-size: 12px; padding: 2px 10px;
+  border-radius: 12px; font-weight: 600;
+}
+
+.cat-group { margin: 4px 0; }
+.cat-group-header {
+  display: flex; align-items: center; padding: 11px 20px; margin: 2px 10px;
+  border-radius: 8px; cursor: pointer; transition: all 0.15s; font-weight: 600;
+  font-size: 14px; color: #444; user-select: none;
+}
+.cat-group-header:hover { background: #f1f3f4; }
+.cat-group-header .arrow { margin-right: 8px; font-size: 10px; transition: transform 0.2s; color: #888; }
+.cat-group-header.expanded .arrow { transform: rotate(90deg); }
+.cat-group-header .count {
+  margin-left: auto; font-size: 12px; color: #888; font-weight: 500;
+}
+
+.cat-items { display: none; padding: 2px 0 4px; }
+.cat-group-header.expanded + .cat-items { display: block; }
+.cat-item {
+  display: flex; align-items: center; padding: 9px 20px 9px 44px; margin: 1px 6px;
+  border-radius: 6px; cursor: pointer; transition: all 0.15s; font-size: 13px;
+  color: #555; justify-content: space-between;
+}
+.cat-item:hover { background: #f1f3f4; }
+.cat-item.active { background: #e8f0fe; color: #1a73e8; font-weight: 600; }
+.cat-item .count { font-size: 11px; color: #999; }
+
+/* ===== Main Content ===== */
+.main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+/* ===== Top Bar ===== */
+.top-bar {
+  padding: 14px 28px; background: #fff; border-bottom: 1px solid #e0e0e0;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.top-bar h1 { font-size: 20px; font-weight: 700; color: #1a73e8; }
+.tab-nav { display: flex; gap: 2px; background: #f0f2f5; border-radius: 8px; padding: 3px; }
+.tab-btn {
+  padding: 8px 20px; border-radius: 6px; font-size: 14px; font-weight: 500;
+  color: #666; background: transparent; transition: all 0.15s;
+}
+.tab-btn:hover { background: #e8e8e8; }
+.tab-btn.active { background: #1a73e8; color: #fff; }
+
+/* ===== Tab Panels ===== */
+.tab-panel { flex: 1; overflow-y: auto; padding: 24px 28px; display: none; }
+.tab-panel.active { display: block; }
+
+/* ===== Practice Panel ===== */
+.practice-container { max-width: 700px; margin: 0 auto; }
+.practice-card {
+  background: #fff; border-radius: 12px; padding: 36px 40px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.practice-progress {
+  font-size: 13px; color: #888; margin-bottom: 24px; display: flex; justify-content: space-between;
+  align-items: center;
+}
+.progress-bar-wrap { flex: 1; height: 5px; background: #e8eaed; border-radius: 3px; margin: 0 16px; overflow: hidden; }
+.progress-bar-inner { height: 100%; background: #1a73e8; border-radius: 3px; transition: width 0.3s; }
+
+.practice-chinese {
+  font-size: 28px; font-weight: 700; color: #222; text-align: center; margin-bottom: 8px;
+  line-height: 1.5;
+}
+.practice-hint { text-align: center; font-size: 13px; color: #999; margin-bottom: 24px; }
+.practice-hint .category-tag {
+  display: inline-block; background: #e8f0fe; color: #1a73e8; padding: 2px 10px;
+  border-radius: 12px; font-size: 12px; margin-right: 6px;
+}
+.practice-hint .type-tag {
+  display: inline-block; background: #fff3cd; color: #856404; padding: 2px 10px;
+  border-radius: 12px; font-size: 12px;
+}
+.practice-input-row { display: flex; gap: 10px; margin-bottom: 16px; }
+.practice-input {
+  flex: 1; padding: 14px 18px; border: 2px solid #e0e0e0; border-radius: 8px;
+  font-size: 18px; outline: none; transition: border-color 0.2s;
+}
+.practice-input:focus { border-color: #1a73e8; }
+.practice-input.correct { border-color: #34a853; background: #f0fff4; }
+.practice-input.incorrect { border-color: #ea4335; background: #fff5f5; }
+.btn-submit {
+  padding: 14px 28px; background: #1a73e8; color: #fff; font-size: 16px;
+  border-radius: 8px; font-weight: 600; transition: background 0.15s;
+}
+.btn-submit:hover { background: #1557b0; }
+.btn-submit:disabled { background: #ccc; cursor: not-allowed; }
+
+.practice-feedback {
+  min-height: 52px; padding: 12px 18px; border-radius: 8px; margin-bottom: 12px;
+  font-size: 15px; display: none;
+}
+.practice-feedback.show { display: block; }
+.practice-feedback.correct { background: #e6f4ea; color: #137333; border: 1px solid #ceead6; }
+.practice-feedback.incorrect { background: #fce8e6; color: #c5221f; border: 1px solid #f5c6c2; }
+.feedback-answer { font-weight: 700; margin-top: 6px; font-size: 18px; }
+
+.practice-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.btn-action {
+  padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 500;
+  transition: all 0.15s; display: flex; align-items: center; gap: 6px;
+}
+.btn-prev { background: #f1f3f4; color: #555; }
+.btn-prev:hover { background: #e0e0e0; }
+.btn-skip { background: #f1f3f4; color: #555; }
+.btn-skip:hover { background: #e0e0e0; }
+.btn-next { background: #1a73e8; color: #fff; display: none; }
+.btn-next.show { display: flex; }
+.btn-next:hover { background: #1557b0; }
+.btn-mastered { background: #fef7e0; color: #e37400; border: 1px solid #f9ab00; }
+.btn-mastered:hover { background: #feefc3; }
+.btn-mastered.mastered { background: #e6f4ea; color: #137333; border: 1px solid #ceead6; }
+.btn-notes-toggle { background: #f1f3f4; color: #555; font-size: 13px; padding: 6px 12px; }
+.btn-notes-toggle:hover { background: #e0e0e0; }
+.practice-notes {
+  display: none; margin-top: 12px; padding: 12px 16px; background: #f8f9fa;
+  border-radius: 8px; font-size: 13px; color: #666; border-left: 3px solid #1a73e8;
+}
+.practice-notes.show { display: block; }
+
+.practice-copy-cn {
+  display: none; text-align: center; font-size: 16px; color: #666;
+  margin-bottom: 12px; padding: 6px; background: #fef7e0; border-radius: 6px;
+}
+.practice-copy-cn.show { display: block; }
+.btn-copy-cn-toggle {
+  background: #fff3cd; color: #856404; font-size: 13px; padding: 6px 14px;
+  border: 1px solid #f9ab00; display: none;
+}
+.btn-copy-cn-toggle:hover { background: #feefc3; }
+.btn-copy-cn-toggle.show { display: flex; }
+
+.practice-mode-toggle { display: flex; gap: 0; margin-bottom: 20px; border-radius: 8px; overflow: hidden; border: 2px solid #e0e0e0; }
+.mode-btn { padding: 8px 20px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; background: #fff; color: #666; transition: all 0.15s; }
+.mode-btn:hover { background: #f1f3f4; }
+.mode-btn.active { background: #1a73e8; color: #fff; }
+
+.practice-empty { text-align: center; padding: 60px; color: #999; font-size: 16px; }
+
+/* ===== Word Book Panel ===== */
+.wordbook-controls {
+  display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center;
+}
+.wb-search {
+  flex: 1; min-width: 200px; padding: 10px 16px; border: 2px solid #e0e0e0;
+  border-radius: 8px; font-size: 14px; outline: none;
+}
+.wb-search:focus { border-color: #1a73e8; }
+.wb-filter { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; outline: none; background: #fff; cursor: pointer; }
+.wb-filter:focus { border-color: #1a73e8; }
+.wb-count { font-size: 13px; color: #888; margin-left: auto; }
+
+.word-table { width: 100%; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
+.word-table table { width: 100%; border-collapse: collapse; }
+.word-table th {
+  padding: 12px 16px; background: #f8f9fa; font-size: 13px; color: #666; font-weight: 600;
+  text-align: left; border-bottom: 2px solid #e0e0e0; position: sticky; top: 0; z-index: 1;
+}
+.word-table td { padding: 10px 16px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+.word-table tr:hover td { background: #f8f9fa; }
+.status-badge {
+  display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;
+}
+.status-badge.not-learned { background: #f1f3f4; color: #666; }
+.status-badge.learning { background: #e8f0fe; color: #1a73e8; }
+.status-badge.mastered { background: #e6f4ea; color: #137333; }
+.mastered-toggle {
+  padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; border: 1px solid #ddd;
+  background: #fff; color: #555; transition: all 0.15s;
+}
+.mastered-toggle:hover { background: #e6f4ea; border-color: #34a853; color: #137333; }
+.mastered-toggle.is-mastered { background: #e6f4ea; border-color: #34a853; color: #137333; }
+
+/* ===== Review Queue Panel ===== */
+.review-summary {
+  display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap;
+}
+.review-stat {
+  background: #fff; padding: 20px 24px; border-radius: 10px; box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  flex: 1; min-width: 140px; text-align: center;
+}
+.review-stat .value { font-size: 32px; font-weight: 700; color: #1a73e8; }
+.review-stat .label { font-size: 13px; color: #888; margin-top: 4px; }
+
+.review-section { max-width: 700px; margin: 0 auto; }
+.btn-start-review {
+  display: block; width: 100%; padding: 14px; background: #1a73e8; color: #fff;
+  font-size: 16px; font-weight: 600; border-radius: 8px; margin-bottom: 20px;
+  transition: background 0.15s;
+}
+.btn-start-review:hover { background: #1557b0; }
+.btn-start-review:disabled { background: #ccc; }
+
+.review-card {
+  background: #fff; border-radius: 12px; padding: 36px 40px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.review-item { padding: 12px 16px; border-bottom: 1px solid #f0f0f0; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
+.review-item:last-child { border-bottom: none; }
+.review-item .word { font-weight: 600; color: #222; }
+.review-item .meaning { color: #666; }
+.review-empty { text-align: center; padding: 40px; color: #999; }
+
+/* ===== Stats Panel ===== */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.stat-card {
+  background: #fff; padding: 24px; border-radius: 10px; box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  text-align: center;
+}
+.stat-card .value { font-size: 36px; font-weight: 700; color: #1a73e8; }
+.stat-card .label { font-size: 13px; color: #888; margin-top: 4px; }
+.stat-card.sub .value { font-size: 28px; color: #34a853; }
+
+.stats-table { width: 100%; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.04); margin-top: 16px; }
+.stats-table table { width: 100%; border-collapse: collapse; }
+.stats-table th {
+  padding: 12px 16px; background: #f8f9fa; font-size: 13px; color: #666; font-weight: 600;
+  text-align: left; border-bottom: 2px solid #e0e0e0;
+}
+.stats-table td { padding: 10px 16px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .app-container { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 100%; max-height: 40vh; }
+  .main-content { height: 60vh; }
+  .practice-card { padding: 20px; }
+  .practice-chinese { font-size: 22px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <span class="icon">&#x1F4DA;</span>
+      词汇分类
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav"></nav>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main-content">
+    <div class="top-bar">
+      <h1>&#x270D;&#xFE0F; 考研英语词汇拼写练习</h1>
+      <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="practice">&#x1F4DD; 练习</button>
+        <button class="tab-btn" data-tab="wordbook">&#x1F4D6; 单词本</button>
+        <button class="tab-btn" data-tab="review">&#x1F504; 复习队列</button>
+        <button class="tab-btn" data-tab="stats">&#x1F4CA; 统计</button>
+      </nav>
+    </div>
+
+    <!-- Practice Tab -->
+    <div class="tab-panel active" id="panel-practice">
+      <div class="practice-container">
+        <div class="practice-mode-toggle">
+          <button class="mode-btn active" id="modeSpelling" onclick="setPracticeMode('spelling')">拼写模式</button>
+          <button class="mode-btn" id="modeCopying" onclick="setPracticeMode('copying')">抄写模式</button>
+        </div>
+        <div class="practice-card" id="practiceCard">
+          <div class="practice-progress" id="practiceProgress"></div>
+          <div class="practice-chinese" id="practiceChinese"></div>
+          <div class="practice-copy-cn" id="practiceCopyCn"></div>
+          <div class="practice-hint" id="practiceHint"></div>
+          <div class="practice-input-row">
+            <input type="text" class="practice-input" id="practiceInput" placeholder="输入英文..." autocomplete="off" autocorrect="off" spellcheck="false">
+            <button class="btn-submit" id="btnSubmit">&#x2713; 提交</button>
+          </div>
+          <div class="practice-feedback" id="practiceFeedback"></div>
+          <div class="practice-actions">
+            <button class="btn-action btn-prev" id="btnPrev">&#x2B05; 上一个</button>
+            <button class="btn-action btn-skip" id="btnSkip">&#x23ED; 跳过</button>
+            <button class="btn-action btn-next" id="btnNext">&#x27A1; 下一个</button>
+            <button class="btn-action btn-mastered" id="btnMastered" title="标记为已掌握">&#x2B50; 标记掌握</button>
+            <button class="btn-action btn-copy-cn-toggle" id="btnCopyCnToggle" title="显示/隐藏中文释义">&#x1F441; 显示中文</button>
+            <button class="btn-action btn-notes-toggle" id="btnNotesToggle">&#x2139; 用法提示</button>
+          </div>
+          <div class="practice-notes" id="practiceNotes"></div>
+        </div>
+        <div class="practice-empty" id="practiceEmpty" style="display:none;">
+          该分类暂无单词可供练习。
+        </div>
+      </div>
+    </div>
+
+    <!-- Word Book Tab -->
+    <div class="tab-panel" id="panel-wordbook">
+      <div class="wordbook-controls">
+        <input type="text" class="wb-search" id="wbSearch" placeholder="搜索英文或中文...">
+        <select class="wb-filter" id="wbCategoryFilter">
+          <option value="all">全部分类</option>
+        </select>
+        <select class="wb-filter" id="wbStatusFilter">
+          <option value="all">全部状态</option>
+          <option value="not-learned">未学习</option>
+          <option value="learning">学习中</option>
+          <option value="mastered">已掌握</option>
+        </select>
+        <select class="wb-filter" id="wbTypeFilter">
+          <option value="all">全部类型</option>
+          <option value="word">单词/短语</option>
+          <option value="sentence">句型</option>
+        </select>
+        <span class="wb-count" id="wbCount"></span>
+      </div>
+      <div class="word-table" id="wordTable"></div>
+    </div>
+
+    <!-- Review Queue Tab -->
+    <div class="tab-panel" id="panel-review">
+      <div class="review-summary">
+        <div class="review-stat">
+          <div class="value" id="rvDueCount">0</div>
+          <div class="label">今日待复习</div>
+        </div>
+        <div class="review-stat">
+          <div class="value" id="rvReviewedToday">0</div>
+          <div class="label">今日已复习</div>
+        </div>
+        <div class="review-stat">
+          <div class="value" id="rvMasteredCount">0</div>
+          <div class="label">已掌握</div>
+        </div>
+      </div>
+      <div class="review-section" id="reviewSection">
+        <button class="btn-start-review" id="btnStartReview">&#x25B6; 开始复习 (待复习单词)</button>
+        <div class="word-table" id="reviewList"></div>
+      </div>
+      <div class="review-card" id="reviewPracticeCard" style="display:none;"></div>
+    </div>
+
+    <!-- Stats Tab -->
+    <div class="tab-panel" id="panel-stats">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="value" id="stTotal">0</div>
+          <div class="label">词汇总数</div>
+        </div>
+        <div class="stat-card sub">
+          <div class="value" id="stMastered">0</div>
+          <div class="label">已掌握</div>
+        </div>
+        <div class="stat-card">
+          <div class="value" id="stReviewedToday">0</div>
+          <div class="label">今日复习数</div>
+        </div>
+        <div class="stat-card">
+          <div class="value" id="stDueCount">0</div>
+          <div class="label">待复习数</div>
+        </div>
+        <div class="stat-card">
+          <div class="value" id="stAccuracy">0%</div>
+          <div class="label">正确率</div>
+        </div>
+        <div class="stat-card">
+          <div class="value" id="stLearning">0</div>
+          <div class="label">学习中</div>
+        </div>
+      </div>
+      <div class="stats-table" id="statsTable"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+// ===== DATA =====
+const VOCAB_DATA = [
+  {
+    "english": "cartoon",
+    "chinese": "漫画 / 图画",
+    "category": "1.1 图画类型与指称",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "泛指图中内容",
+    "type": "word",
+    "id": 0
+  },
+  {
+    "english": "picture",
+    "chinese": "漫画 / 图画",
+    "category": "1.1 图画类型与指称",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "泛指图中内容",
+    "type": "word",
+    "id": 1
+  },
+  {
+    "english": "drawing",
+    "chinese": "漫画 / 图画",
+    "category": "1.1 图画类型与指称",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "泛指图中内容",
+    "type": "word",
+    "id": 2
+  },
+  {
+    "english": "the picture depicts / portrays / illustrates",
+    "chinese": "图画描绘了",
+    "category": "1.1 图画类型与指称",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "开篇描述图的常用动词",
+    "type": "sentence",
+    "id": 3
+  },
+  {
+    "english": "as is vividly shown",
+    "chinese": "正如漫画生动展示的那样",
+    "category": "1.1 图画类型与指称",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "经典开篇句式",
+    "type": "word",
+    "id": 4
+  },
+  {
+    "english": "depicted in the cartoon",
+    "chinese": "正如漫画生动展示的那样",
+    "category": "1.1 图画类型与指称",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "经典开篇句式",
+    "type": "word",
+    "id": 5
+  },
+  {
+    "english": "in the picture above",
+    "chinese": "在上方的图画中",
+    "category": "1.1 图画类型与指称",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "指代所给图画",
+    "type": "word",
+    "id": 6
+  },
+  {
+    "english": "the caption reads, \"...\"",
+    "chinese": "配文写道：\"…\"",
+    "category": "1.1 图画类型与指称",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "图片配文引用",
+    "type": "word",
+    "id": 7
+  },
+  {
+    "english": "what the picture conveys is that",
+    "chinese": "图画传达的意思是",
+    "category": "1.1 图画类型与指称",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "概括寓意",
+    "type": "sentence",
+    "id": 8
+  },
+  {
+    "english": "an old man",
+    "chinese": "老人",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "基本人物指称",
+    "type": "word",
+    "id": 9
+  },
+  {
+    "english": "a young man",
+    "chinese": "年轻人",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "基本人物指称",
+    "type": "word",
+    "id": 10
+  },
+  {
+    "english": "a group of people",
+    "chinese": "一群人",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "基本人物指称",
+    "type": "word",
+    "id": 11
+  },
+  {
+    "english": "sitting",
+    "chinese": "坐着",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "姿态描述",
+    "type": "word",
+    "id": 12
+  },
+  {
+    "english": "standing",
+    "chinese": "站着",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "姿态描述",
+    "type": "word",
+    "id": 13
+  },
+  {
+    "english": "kneeling",
+    "chinese": "跪着",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "姿态描述",
+    "type": "word",
+    "id": 14
+  },
+  {
+    "english": "staring at / gazing at / looking at",
+    "chinese": "盯着 / 凝视 / 看向",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "视线描述",
+    "type": "sentence",
+    "id": 15
+  },
+  {
+    "english": "holding",
+    "chinese": "拿着",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "手部动作",
+    "type": "word",
+    "id": 16
+  },
+  {
+    "english": "carrying",
+    "chinese": "搬运",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "手部动作",
+    "type": "word",
+    "id": 17
+  },
+  {
+    "english": "supporting",
+    "chinese": "搀扶",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "手部动作",
+    "type": "word",
+    "id": 18
+  },
+  {
+    "english": "smiling",
+    "chinese": "微笑",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "面部表情",
+    "type": "word",
+    "id": 19
+  },
+  {
+    "english": "frowning",
+    "chinese": "皱眉",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "面部表情",
+    "type": "word",
+    "id": 20
+  },
+  {
+    "english": "weeping",
+    "chinese": "哭泣",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "面部表情",
+    "type": "word",
+    "id": 21
+  },
+  {
+    "english": "pointing to",
+    "chinese": "指向",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "示意动作",
+    "type": "word",
+    "id": 22
+  },
+  {
+    "english": "gesturing toward",
+    "chinese": "做出手势",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "示意动作",
+    "type": "word",
+    "id": 23
+  },
+  {
+    "english": "bending down",
+    "chinese": "弯下腰",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "身体动作",
+    "type": "word",
+    "id": 24
+  },
+  {
+    "english": "reaching out",
+    "chinese": "伸出手",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "身体动作",
+    "type": "word",
+    "id": 25
+  },
+  {
+    "english": "surrounded by / accompanied by",
+    "chinese": "被…围绕 / 有…陪同",
+    "category": "1.2 人物与动作描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "场景关系",
+    "type": "sentence",
+    "id": 26
+  },
+  {
+    "english": "in the foreground / background",
+    "chinese": "前景中 / 背景中",
+    "category": "1.3 场景与环境描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "画面层次",
+    "type": "sentence",
+    "id": 27
+  },
+  {
+    "english": "on the left",
+    "chinese": "在左边",
+    "category": "1.3 场景与环境描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "位置描述",
+    "type": "word",
+    "id": 28
+  },
+  {
+    "english": "right side",
+    "chinese": "右边",
+    "category": "1.3 场景与环境描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "位置描述",
+    "type": "word",
+    "id": 29
+  },
+  {
+    "english": "at the center of the picture",
+    "chinese": "在画面中央",
+    "category": "1.3 场景与环境描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "中心定位",
+    "type": "sentence",
+    "id": 30
+  },
+  {
+    "english": "on / beside / next to / in front of",
+    "chinese": "在…上 / 旁边 / 前面",
+    "category": "1.3 场景与环境描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "方位介词",
+    "type": "sentence",
+    "id": 31
+  },
+  {
+    "english": "a sign",
+    "chinese": "标识",
+    "category": "1.3 场景与环境描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "画中文字/标志",
+    "type": "word",
+    "id": 32
+  },
+  {
+    "english": "a slogan",
+    "chinese": "标语",
+    "category": "1.3 场景与环境描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "画中文字/标志",
+    "type": "word",
+    "id": 33
+  },
+  {
+    "english": "a banner",
+    "chinese": "横幅",
+    "category": "1.3 场景与环境描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "画中文字/标志",
+    "type": "word",
+    "id": 34
+  },
+  {
+    "english": "the setting is",
+    "chinese": "场景是",
+    "category": "1.3 场景与环境描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "设定场景",
+    "type": "word",
+    "id": 35
+  },
+  {
+    "english": "the scene takes place in",
+    "chinese": "场景发生在",
+    "category": "1.3 场景与环境描述",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "设定场景",
+    "type": "sentence",
+    "id": 36
+  },
+  {
+    "english": "symbolize",
+    "chinese": "象征",
+    "category": "1.4 图意解读高频动词",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "The flower symbolizes hope.",
+    "type": "word",
+    "id": 37
+  },
+  {
+    "english": "imply",
+    "chinese": "暗示；意味着",
+    "category": "1.4 图意解读高频动词",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "The picture implies that...",
+    "type": "word",
+    "id": 38
+  },
+  {
+    "english": "reflect",
+    "chinese": "反映",
+    "category": "1.4 图意解读高频动词",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "It reflects a common social phenomenon.",
+    "type": "word",
+    "id": 39
+  },
+  {
+    "english": "reveal",
+    "chinese": "揭示",
+    "category": "1.4 图意解读高频动词",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "The cartoon reveals the importance of...",
+    "type": "word",
+    "id": 40
+  },
+  {
+    "english": "convey",
+    "chinese": "传达",
+    "category": "1.4 图意解读高频动词",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "It conveys a profound message.",
+    "type": "word",
+    "id": 41
+  },
+  {
+    "english": "indicate",
+    "chinese": "表明",
+    "category": "1.4 图意解读高频动词",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "This indicates that...",
+    "type": "word",
+    "id": 42
+  },
+  {
+    "english": "represent",
+    "chinese": "代表",
+    "category": "1.4 图意解读高频动词",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "The two men represent different attitudes.",
+    "type": "word",
+    "id": 43
+  },
+  {
+    "english": "highlight",
+    "chinese": "突出；强调",
+    "category": "1.4 图意解读高频动词",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "It highlights the problem of...",
+    "type": "word",
+    "id": 44
+  },
+  {
+    "english": "expose",
+    "chinese": "揭露",
+    "category": "1.4 图意解读高频动词",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "The picture exposes a serious issue.",
+    "type": "word",
+    "id": 45
+  },
+  {
+    "english": "satirize",
+    "chinese": "讽刺",
+    "category": "1.4 图意解读高频动词",
+    "categoryGroup": "一、大作文：图画描述词汇",
+    "notes": "The cartoon satirizes...",
+    "type": "word",
+    "id": 46
+  },
+  {
+    "english": "phenomenon",
+    "chinese": "现象",
+    "category": "2.1 现象描述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "定义论述对象",
+    "type": "word",
+    "id": 47
+  },
+  {
+    "english": "trend",
+    "chinese": "趋势",
+    "category": "2.1 现象描述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "定义论述对象",
+    "type": "word",
+    "id": 48
+  },
+  {
+    "english": "prevailing",
+    "chinese": "普遍的；盛行的",
+    "category": "2.1 现象描述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "描述现象广泛性",
+    "type": "word",
+    "id": 49
+  },
+  {
+    "english": "prevalent",
+    "chinese": "普遍的；盛行的",
+    "category": "2.1 现象描述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "描述现象广泛性",
+    "type": "word",
+    "id": 50
+  },
+  {
+    "english": "widespread",
+    "chinese": "普遍的；盛行的",
+    "category": "2.1 现象描述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "描述现象广泛性",
+    "type": "word",
+    "id": 51
+  },
+  {
+    "english": "increasingly common",
+    "chinese": "日益普遍",
+    "category": "2.1 现象描述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "趋势表述",
+    "type": "word",
+    "id": 52
+  },
+  {
+    "english": "a growing number of / an increasing number of",
+    "chinese": "越来越多的",
+    "category": "2.1 现象描述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "量化趋势",
+    "type": "sentence",
+    "id": 53
+  },
+  {
+    "english": "it is not uncommon to see",
+    "chinese": "…并不少见",
+    "category": "2.1 现象描述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "反向强调普遍",
+    "type": "sentence",
+    "id": 54
+  },
+  {
+    "english": "this is particularly true of",
+    "chinese": "这一点在…上尤为明显",
+    "category": "2.1 现象描述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "聚焦特定领域",
+    "type": "sentence",
+    "id": 55
+  },
+  {
+    "english": "the past decades have witnessed",
+    "chinese": "过去几十年见证了",
+    "category": "2.1 现象描述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "时间跨度开头",
+    "type": "sentence",
+    "id": 56
+  },
+  {
+    "english": "Several factors contribute to this phenomenon.",
+    "chinese": "几个因素促成了这一现象。",
+    "category": "2.2 原因分析",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "总起原因段",
+    "type": "sentence",
+    "id": 57
+  },
+  {
+    "english": "The primary reason is that...",
+    "chinese": "首要原因是…",
+    "category": "2.2 原因分析",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "引出核心原因",
+    "type": "sentence",
+    "id": 58
+  },
+  {
+    "english": "be attributed to",
+    "chinese": "归因于",
+    "category": "2.2 原因分析",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "正式归因",
+    "type": "word",
+    "id": 59
+  },
+  {
+    "english": "account for",
+    "chinese": "解释…的原因",
+    "category": "2.2 原因分析",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "说明原因",
+    "type": "word",
+    "id": 60
+  },
+  {
+    "english": "with the rapid development of",
+    "chinese": "随着…的快速发展",
+    "category": "2.2 原因分析",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "社会背景铺垫",
+    "type": "sentence",
+    "id": 61
+  },
+  {
+    "english": "under the influence of",
+    "chinese": "在…的影响下",
+    "category": "2.2 原因分析",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "外部因素",
+    "type": "word",
+    "id": 62
+  },
+  {
+    "english": "driven by",
+    "chinese": "由…驱动",
+    "category": "2.2 原因分析",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "推动因素",
+    "type": "word",
+    "id": 63
+  },
+  {
+    "english": "be closely related to",
+    "chinese": "与…密切相关",
+    "category": "2.2 原因分析",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "关联性原因",
+    "type": "word",
+    "id": 64
+  },
+  {
+    "english": "one possible explanation is that",
+    "chinese": "一个可能的解释是",
+    "category": "2.2 原因分析",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "委婉归因",
+    "type": "sentence",
+    "id": 65
+  },
+  {
+    "english": "the root cause lies in",
+    "chinese": "根本原因在于",
+    "category": "2.2 原因分析",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "深层原因",
+    "type": "sentence",
+    "id": 66
+  },
+  {
+    "english": "exert a profound influence on",
+    "chinese": "对…产生深远影响",
+    "category": "2.3 影响与后果",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "正式表达",
+    "type": "sentence",
+    "id": 67
+  },
+  {
+    "english": "have a positive",
+    "chinese": "对…有积极",
+    "category": "2.3 影响与后果",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "通用影响表述",
+    "type": "word",
+    "id": 68
+  },
+  {
+    "english": "negative impact on",
+    "chinese": "消极影响",
+    "category": "2.3 影响与后果",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "通用影响表述",
+    "type": "word",
+    "id": 69
+  },
+  {
+    "english": "bring about",
+    "chinese": "带来 / 导致",
+    "category": "2.3 影响与后果",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "因果关系",
+    "type": "word",
+    "id": 70
+  },
+  {
+    "english": "lead to",
+    "chinese": "带来 / 导致",
+    "category": "2.3 影响与后果",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "因果关系",
+    "type": "word",
+    "id": 71
+  },
+  {
+    "english": "result in",
+    "chinese": "带来 / 导致",
+    "category": "2.3 影响与后果",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "因果关系",
+    "type": "word",
+    "id": 72
+  },
+  {
+    "english": "give rise to",
+    "chinese": "引起",
+    "category": "2.3 影响与后果",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "正式因果",
+    "type": "word",
+    "id": 73
+  },
+  {
+    "english": "pose a threat to",
+    "chinese": "对…构成威胁",
+    "category": "2.3 影响与后果",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "负面后果",
+    "type": "word",
+    "id": 74
+  },
+  {
+    "english": "bring benefits to",
+    "chinese": "给…带来好处",
+    "category": "2.3 影响与后果",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "正面后果",
+    "type": "word",
+    "id": 75
+  },
+  {
+    "english": "at the expense of",
+    "chinese": "以牺牲…为代价",
+    "category": "2.3 影响与后果",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "代价性后果",
+    "type": "word",
+    "id": 76
+  },
+  {
+    "english": "be conducive to",
+    "chinese": "有益于",
+    "category": "2.3 影响与后果",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "正面影响（正式）",
+    "type": "word",
+    "id": 77
+  },
+  {
+    "english": "do harm to / be detrimental to",
+    "chinese": "对…有害",
+    "category": "2.3 影响与后果",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "负面影响",
+    "type": "sentence",
+    "id": 78
+  },
+  {
+    "english": "in the long run",
+    "chinese": "从长远看",
+    "category": "2.3 影响与后果",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "时间维度",
+    "type": "word",
+    "id": 79
+  },
+  {
+    "english": "in the short term",
+    "chinese": "短期看",
+    "category": "2.3 影响与后果",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "时间维度",
+    "type": "word",
+    "id": 80
+  },
+  {
+    "english": "The value of... cannot be overestimated.",
+    "chinese": "…的价值怎么估量都不为过。",
+    "category": "2.4 价值与意义阐述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "强调价值",
+    "type": "sentence",
+    "id": 81
+  },
+  {
+    "english": "...plays an indispensable role in...",
+    "chinese": "…在…中起着不可或缺的作用",
+    "category": "2.4 价值与意义阐述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "核心作用",
+    "type": "sentence",
+    "id": 82
+  },
+  {
+    "english": "It is the cornerstone of...",
+    "chinese": "它是…的基石",
+    "category": "2.4 价值与意义阐述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "基础性意义",
+    "type": "sentence",
+    "id": 83
+  },
+  {
+    "english": "Nothing is more important than...",
+    "chinese": "没有什么比…更重要",
+    "category": "2.4 价值与意义阐述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "最高级强调",
+    "type": "sentence",
+    "id": 84
+  },
+  {
+    "english": "The significance of... lies in...",
+    "chinese": "…的意义在于…",
+    "category": "2.4 价值与意义阐述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "揭示本质意义",
+    "type": "sentence",
+    "id": 85
+  },
+  {
+    "english": "It serves as a reminder that...",
+    "chinese": "它提醒我们…",
+    "category": "2.4 价值与意义阐述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "启发意义",
+    "type": "sentence",
+    "id": 86
+  },
+  {
+    "english": "...is a stepping stone to...",
+    "chinese": "…是通往…的垫脚石",
+    "category": "2.4 价值与意义阐述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "递进价值",
+    "type": "sentence",
+    "id": 87
+  },
+  {
+    "english": "...is the key to...",
+    "chinese": "…是…的关键",
+    "category": "2.4 价值与意义阐述",
+    "categoryGroup": "二、大作文：寓意分析与论述词汇",
+    "notes": "重要性定位",
+    "type": "sentence",
+    "id": 88
+  },
+  {
+    "english": "perseverance",
+    "chinese": "毅力",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "坚持类话题",
+    "type": "word",
+    "id": 89
+  },
+  {
+    "english": "persistence",
+    "chinese": "坚持不懈",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "坚持类话题",
+    "type": "word",
+    "id": 90
+  },
+  {
+    "english": "self-confidence",
+    "chinese": "自信",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "自信与成功",
+    "type": "word",
+    "id": 91
+  },
+  {
+    "english": "independence",
+    "chinese": "独立",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "独立人格",
+    "type": "word",
+    "id": 92
+  },
+  {
+    "english": "optimism",
+    "chinese": "乐观",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "人生态度",
+    "type": "word",
+    "id": 93
+  },
+  {
+    "english": "pessimistic",
+    "chinese": "悲观",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "人生态度",
+    "type": "word",
+    "id": 94
+  },
+  {
+    "english": "diligence",
+    "chinese": "勤奋",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "努力与收获",
+    "type": "word",
+    "id": 95
+  },
+  {
+    "english": "hardworking",
+    "chinese": "勤奋",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "努力与收获",
+    "type": "word",
+    "id": 96
+  },
+  {
+    "english": "responsibility",
+    "chinese": "责任",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "责任担当",
+    "type": "word",
+    "id": 97
+  },
+  {
+    "english": "accountable",
+    "chinese": "负责任的",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "责任担当",
+    "type": "word",
+    "id": 98
+  },
+  {
+    "english": "courage",
+    "chinese": "勇气",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "勇气面对困难",
+    "type": "word",
+    "id": 99
+  },
+  {
+    "english": "bravery",
+    "chinese": "勇气",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "勇气面对困难",
+    "type": "word",
+    "id": 100
+  },
+  {
+    "english": "patience",
+    "chinese": "耐心",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "耐心与成功",
+    "type": "word",
+    "id": 101
+  },
+  {
+    "english": "modesty",
+    "chinese": "谦虚",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "谦逊品质",
+    "type": "word",
+    "id": 102
+  },
+  {
+    "english": "humble",
+    "chinese": "谦虚",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "谦逊品质",
+    "type": "word",
+    "id": 103
+  },
+  {
+    "english": "integrity",
+    "chinese": "正直",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "道德品质",
+    "type": "word",
+    "id": 104
+  },
+  {
+    "english": "honesty",
+    "chinese": "诚实",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "道德品质",
+    "type": "word",
+    "id": 105
+  },
+  {
+    "english": "self-discipline",
+    "chinese": "自律",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "自我管理",
+    "type": "word",
+    "id": 106
+  },
+  {
+    "english": "curiosity",
+    "chinese": "好奇心",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "探索精神",
+    "type": "word",
+    "id": 107
+  },
+  {
+    "english": "gratitude",
+    "chinese": "感恩",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "感恩话题",
+    "type": "word",
+    "id": 108
+  },
+  {
+    "english": "cooperation",
+    "chinese": "合作",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "合作共赢",
+    "type": "word",
+    "id": 109
+  },
+  {
+    "english": "teamwork",
+    "chinese": "团队精神",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "合作共赢",
+    "type": "word",
+    "id": 110
+  },
+  {
+    "english": "mutual understanding",
+    "chinese": "相互理解",
+    "category": "3.1 个人品质与成长",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "人际交往",
+    "type": "word",
+    "id": 111
+  },
+  {
+    "english": "filial piety",
+    "chinese": "孝道",
+    "category": "3.2 家庭伦理与社会关系",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "尊老爱幼",
+    "type": "word",
+    "id": 112
+  },
+  {
+    "english": "parental love / care",
+    "chinese": "父母之爱 / 关爱",
+    "category": "3.2 家庭伦理与社会关系",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "亲情话题",
+    "type": "word",
+    "id": 113
+  },
+  {
+    "english": "generation gap",
+    "chinese": "代沟",
+    "category": "3.2 家庭伦理与社会关系",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "代际关系",
+    "type": "word",
+    "id": 114
+  },
+  {
+    "english": "mutual support",
+    "chinese": "相互扶持",
+    "category": "3.2 家庭伦理与社会关系",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "家庭互助",
+    "type": "word",
+    "id": 115
+  },
+  {
+    "english": "accompany",
+    "chinese": "陪伴",
+    "category": "3.2 家庭伦理与社会关系",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "陪伴老人/家人",
+    "type": "word",
+    "id": 116
+  },
+  {
+    "english": "companionship",
+    "chinese": "陪伴",
+    "category": "3.2 家庭伦理与社会关系",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "陪伴老人/家人",
+    "type": "word",
+    "id": 117
+  },
+  {
+    "english": "empty nester",
+    "chinese": "空巢老人",
+    "category": "3.2 家庭伦理与社会关系",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "养老话题",
+    "type": "word",
+    "id": 118
+  },
+  {
+    "english": "left-behind children",
+    "chinese": "留守儿童",
+    "category": "3.2 家庭伦理与社会关系",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "社会关怀",
+    "type": "word",
+    "id": 119
+  },
+  {
+    "english": "neighborly relationship",
+    "chinese": "邻里关系",
+    "category": "3.2 家庭伦理与社会关系",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "社区关系",
+    "type": "word",
+    "id": 120
+  },
+  {
+    "english": "a harmonious family / society",
+    "chinese": "和谐家庭 / 社会",
+    "category": "3.2 家庭伦理与社会关系",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "和谐社会",
+    "type": "sentence",
+    "id": 121
+  },
+  {
+    "english": "upbringing",
+    "chinese": "养育",
+    "category": "3.2 家庭伦理与社会关系",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "教育方式",
+    "type": "word",
+    "id": 122
+  },
+  {
+    "english": "parenting",
+    "chinese": "家庭教育",
+    "category": "3.2 家庭伦理与社会关系",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "教育方式",
+    "type": "word",
+    "id": 123
+  },
+  {
+    "english": "traditional culture",
+    "chinese": "传统文化",
+    "category": "3.3 文化教育",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "文化传承",
+    "type": "word",
+    "id": 124
+  },
+  {
+    "english": "cultural heritage",
+    "chinese": "文化遗产",
+    "category": "3.3 文化教育",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "文化保护",
+    "type": "word",
+    "id": 125
+  },
+  {
+    "english": "cultural exchange",
+    "chinese": "文化交流",
+    "category": "3.3 文化教育",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "中外交流",
+    "type": "word",
+    "id": 126
+  },
+  {
+    "english": "cultural confidence",
+    "chinese": "文化自信",
+    "category": "3.3 文化教育",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "文化态度",
+    "type": "word",
+    "id": 127
+  },
+  {
+    "english": "innovation vs. tradition",
+    "chinese": "创新与传统",
+    "category": "3.3 文化教育",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "传统与现代",
+    "type": "word",
+    "id": 128
+  },
+  {
+    "english": "quality-oriented education",
+    "chinese": "素质教育",
+    "category": "3.3 文化教育",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "教育改革",
+    "type": "word",
+    "id": 129
+  },
+  {
+    "english": "exam-oriented education",
+    "chinese": "应试教育",
+    "category": "3.3 文化教育",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "教育弊端",
+    "type": "word",
+    "id": 130
+  },
+  {
+    "english": "comprehensive development",
+    "chinese": "全面发展",
+    "category": "3.3 文化教育",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "教育目标",
+    "type": "word",
+    "id": 131
+  },
+  {
+    "english": "critical thinking",
+    "chinese": "批判性思维",
+    "category": "3.3 文化教育",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "思维能力",
+    "type": "word",
+    "id": 132
+  },
+  {
+    "english": "lifelong learning",
+    "chinese": "终身学习",
+    "category": "3.3 文化教育",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "学习态度",
+    "type": "word",
+    "id": 133
+  },
+  {
+    "english": "the craze for overseas study",
+    "chinese": "留学热",
+    "category": "3.3 文化教育",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "留学话题",
+    "type": "sentence",
+    "id": 134
+  },
+  {
+    "english": "the pursuit of high scores",
+    "chinese": "唯分数论",
+    "category": "3.3 文化教育",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "教育反思",
+    "type": "sentence",
+    "id": 135
+  },
+  {
+    "english": "the Internet",
+    "chinese": "互联网",
+    "category": "3.4 科技与生活",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "网络话题",
+    "type": "word",
+    "id": 136
+  },
+  {
+    "english": "the digital age",
+    "chinese": "数字时代",
+    "category": "3.4 科技与生活",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "网络话题",
+    "type": "word",
+    "id": 137
+  },
+  {
+    "english": "smartphone addiction",
+    "chinese": "手机成瘾",
+    "category": "3.4 科技与生活",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "低头族",
+    "type": "word",
+    "id": 138
+  },
+  {
+    "english": "artificial intelligence (AI)",
+    "chinese": "人工智能",
+    "category": "3.4 科技与生活",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "科技前沿",
+    "type": "word",
+    "id": 139
+  },
+  {
+    "english": "online communication vs. face-to-face interaction",
+    "chinese": "线上交流与面对面交流",
+    "category": "3.4 科技与生活",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "人际交往变化",
+    "type": "sentence",
+    "id": 140
+  },
+  {
+    "english": "information overload",
+    "chinese": "信息过载",
+    "category": "3.4 科技与生活",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "信息时代",
+    "type": "word",
+    "id": 141
+  },
+  {
+    "english": "a double-edged sword",
+    "chinese": "双刃剑",
+    "category": "3.4 科技与生活",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "科技两面性",
+    "type": "word",
+    "id": 142
+  },
+  {
+    "english": "virtual world vs. real world",
+    "chinese": "虚拟世界与现实世界",
+    "category": "3.4 科技与生活",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "虚实关系",
+    "type": "sentence",
+    "id": 143
+  },
+  {
+    "english": "online shopping / e-commerce",
+    "chinese": "网购 / 电子商务",
+    "category": "3.4 科技与生活",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "消费方式",
+    "type": "word",
+    "id": 144
+  },
+  {
+    "english": "social media",
+    "chinese": "社交媒体",
+    "category": "3.4 科技与生活",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "社交方式",
+    "type": "word",
+    "id": 145
+  },
+  {
+    "english": "technological innovation",
+    "chinese": "科技创新",
+    "category": "3.4 科技与生活",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "科技进步",
+    "type": "word",
+    "id": 146
+  },
+  {
+    "english": "environmental pollution",
+    "chinese": "环境污染",
+    "category": "3.5 环境与持续发展",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "环境问题",
+    "type": "word",
+    "id": 147
+  },
+  {
+    "english": "sustainable development",
+    "chinese": "可持续发展",
+    "category": "3.5 环境与持续发展",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "发展理念",
+    "type": "word",
+    "id": 148
+  },
+  {
+    "english": "low-carbon lifestyle",
+    "chinese": "低碳生活",
+    "category": "3.5 环境与持续发展",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "环保行动",
+    "type": "word",
+    "id": 149
+  },
+  {
+    "english": "resource conservation",
+    "chinese": "资源节约",
+    "category": "3.5 环境与持续发展",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "节约话题",
+    "type": "word",
+    "id": 150
+  },
+  {
+    "english": "ecological civilization",
+    "chinese": "生态文明",
+    "category": "3.5 环境与持续发展",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "国家战略",
+    "type": "word",
+    "id": 151
+  },
+  {
+    "english": "haze",
+    "chinese": "雾霾",
+    "category": "3.5 环境与持续发展",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "空气质量",
+    "type": "word",
+    "id": 152
+  },
+  {
+    "english": "smog",
+    "chinese": "雾霾",
+    "category": "3.5 环境与持续发展",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "空气质量",
+    "type": "word",
+    "id": 153
+  },
+  {
+    "english": "waste sorting",
+    "chinese": "垃圾分类",
+    "category": "3.5 环境与持续发展",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "环保新政",
+    "type": "word",
+    "id": 154
+  },
+  {
+    "english": "garbage classification",
+    "chinese": "垃圾分类",
+    "category": "3.5 环境与持续发展",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "环保新政",
+    "type": "word",
+    "id": 155
+  },
+  {
+    "english": "green development",
+    "chinese": "绿色发展",
+    "category": "3.5 环境与持续发展",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "发展方式",
+    "type": "word",
+    "id": 156
+  },
+  {
+    "english": "harmonious coexistence between man and nature",
+    "chinese": "人与自然和谐共生",
+    "category": "3.5 环境与持续发展",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "生态观",
+    "type": "sentence",
+    "id": 157
+  },
+  {
+    "english": "public morality",
+    "chinese": "公德",
+    "category": "3.6 社会热点",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "道德话题",
+    "type": "word",
+    "id": 158
+  },
+  {
+    "english": "civic virtue",
+    "chinese": "公民道德",
+    "category": "3.6 社会热点",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "道德话题",
+    "type": "word",
+    "id": 159
+  },
+  {
+    "english": "the gap between the rich and the poor",
+    "chinese": "贫富差距",
+    "category": "3.6 社会热点",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "社会公平",
+    "type": "sentence",
+    "id": 160
+  },
+  {
+    "english": "charity",
+    "chinese": "慈善",
+    "category": "3.6 社会热点",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "公益话题",
+    "type": "word",
+    "id": 161
+  },
+  {
+    "english": "philanthropy",
+    "chinese": "慈善",
+    "category": "3.6 社会热点",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "公益话题",
+    "type": "word",
+    "id": 162
+  },
+  {
+    "english": "volunteer service",
+    "chinese": "志愿服务",
+    "category": "3.6 社会热点",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "奉献精神",
+    "type": "word",
+    "id": 163
+  },
+  {
+    "english": "the aging population",
+    "chinese": "人口老龄化",
+    "category": "3.6 社会热点",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "社会挑战",
+    "type": "word",
+    "id": 164
+  },
+  {
+    "english": "integrity / credit system",
+    "chinese": "诚信 / 信用体系",
+    "category": "3.6 社会热点",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "诚信话题",
+    "type": "word",
+    "id": 165
+  },
+  {
+    "english": "idol worship",
+    "chinese": "偶像崇拜",
+    "category": "3.6 社会热点",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "青年文化",
+    "type": "word",
+    "id": 166
+  },
+  {
+    "english": "star chasing",
+    "chinese": "追星",
+    "category": "3.6 社会热点",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "青年文化",
+    "type": "word",
+    "id": 167
+  },
+  {
+    "english": "the spirit of craftsmanship",
+    "chinese": "工匠精神",
+    "category": "3.6 社会热点",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "职业品质",
+    "type": "word",
+    "id": 168
+  },
+  {
+    "english": "innovation-driven development",
+    "chinese": "创新驱动发展",
+    "category": "3.6 社会热点",
+    "categoryGroup": "六、大作文：分话题高频词汇",
+    "notes": "国家战略",
+    "type": "word",
+    "id": 169
+  },
+  {
+    "english": "As is vividly depicted in the cartoon, ...",
+    "chinese": "正如漫画生动描绘的那样，…",
+    "category": "4.1 首段：图画描述 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 170
+  },
+  {
+    "english": "In the picture above, we can see...",
+    "chinese": "在上方图画中，我们可以看到…",
+    "category": "4.1 首段：图画描述 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 171
+  },
+  {
+    "english": "The cartoon portrays a thought-provoking scene in which...",
+    "chinese": "漫画描绘了一个发人深省的场景…",
+    "category": "4.1 首段：图画描述 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 172
+  },
+  {
+    "english": "What strikes us most is that...",
+    "chinese": "最打动我们的是…",
+    "category": "4.1 首段：图画描述 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 173
+  },
+  {
+    "english": "The caption",
+    "chinese": "配文写道：\"…\"",
+    "category": "4.1 首段：图画描述 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 174
+  },
+  {
+    "english": "subtitle reads, \"...\"",
+    "chinese": "配文写道：\"…\"",
+    "category": "4.1 首段：图画描述 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 175
+  },
+  {
+    "english": "Simple as the picture is, the meaning behind it is as deep as the ocean.",
+    "chinese": "图虽简，意却深。",
+    "category": "4.1 首段：图画描述 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 176
+  },
+  {
+    "english": "The picture conveys a profound message that...",
+    "chinese": "这幅图传达了一个深刻的寓意…",
+    "category": "4.2 中段：寓意解读与原因分析 (5-6句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 177
+  },
+  {
+    "english": "What the cartoon intends to convey is that...",
+    "chinese": "漫画意在传达的是…",
+    "category": "4.2 中段：寓意解读与原因分析 (5-6句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 178
+  },
+  {
+    "english": "The implied meaning of the picture can be interpreted in terms of...",
+    "chinese": "图画的寓意可以从…角度解读。",
+    "category": "4.2 中段：寓意解读与原因分析 (5-6句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 179
+  },
+  {
+    "english": "Several factors account for this phenomenon.",
+    "chinese": "有几个因素可以解释这一现象。",
+    "category": "4.2 中段：寓意解读与原因分析 (5-6句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 180
+  },
+  {
+    "english": "To begin with, ... Moreover, ... Last but not least, ...",
+    "chinese": "首先…其次…最后同样重要的是…",
+    "category": "4.2 中段：寓意解读与原因分析 (5-6句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 181
+  },
+  {
+    "english": "For one thing, ... For another, ...",
+    "chinese": "一方面…另一方面…",
+    "category": "4.2 中段：寓意解读与原因分析 (5-6句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 182
+  },
+  {
+    "english": "There is no doubt that... plays a vital role in...",
+    "chinese": "毫无疑问…在…中起着关键作用。",
+    "category": "4.2 中段：寓意解读与原因分析 (5-6句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 183
+  },
+  {
+    "english": "A good case in point is that...",
+    "chinese": "一个典型案例是…",
+    "category": "4.2 中段：寓意解读与原因分析 (5-6句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 184
+  },
+  {
+    "english": "It goes without saying that...",
+    "chinese": "不言而喻…",
+    "category": "4.2 中段：寓意解读与原因分析 (5-6句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 185
+  },
+  {
+    "english": "With the rapid development of society, ...",
+    "chinese": "随着社会的快速发展，…",
+    "category": "4.2 中段：寓意解读与原因分析 (5-6句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 186
+  },
+  {
+    "english": "From what has been discussed above, we may safely draw the conclusion that...",
+    "chinese": "综上所述，我们可以稳妥地得出结论…",
+    "category": "4.3 末段：总结评论与建议 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 187
+  },
+  {
+    "english": "It is high time that we attached great importance to...",
+    "chinese": "我们早该高度重视…了。",
+    "category": "4.3 末段：总结评论与建议 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 188
+  },
+  {
+    "english": "Only by... can we...",
+    "chinese": "只有通过…我们才能…",
+    "category": "4.3 末段：总结评论与建议 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 189
+  },
+  {
+    "english": "It is imperative that effective measures be taken to...",
+    "chinese": "必须采取有效措施来…",
+    "category": "4.3 末段：总结评论与建议 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 190
+  },
+  {
+    "english": "The government should enact laws and regulations to...",
+    "chinese": "政府应制定法律法规来…",
+    "category": "4.3 末段：总结评论与建议 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 191
+  },
+  {
+    "english": "As individuals, we should raise our awareness of...",
+    "chinese": "作为个人，我们应提高对…的意识。",
+    "category": "4.3 末段：总结评论与建议 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 192
+  },
+  {
+    "english": "Every effort should be made to...",
+    "chinese": "应尽一切努力来…",
+    "category": "4.3 末段：总结评论与建议 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 193
+  },
+  {
+    "english": "I am firmly convinced that the future will be bright if...",
+    "chinese": "我坚信，只要…未来就会光明。",
+    "category": "4.3 末段：总结评论与建议 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 194
+  },
+  {
+    "english": "Let us join hands to...",
+    "chinese": "让我们携起手来…",
+    "category": "4.3 末段：总结评论与建议 (3-4句)",
+    "categoryGroup": "八、大作文三段式万能句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 195
+  },
+  {
+    "english": "To begin with, ...",
+    "chinese": "首先，…",
+    "category": "5.1 段落过渡",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "原因分析第一条",
+    "type": "sentence",
+    "id": 196
+  },
+  {
+    "english": "What's more, ...",
+    "chinese": "而且，…",
+    "category": "5.1 段落过渡",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "中层递进",
+    "type": "sentence",
+    "id": 197
+  },
+  {
+    "english": "Furthermore, ...",
+    "chinese": "此外，…",
+    "category": "5.1 段落过渡",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "高层递进（更正式）",
+    "type": "sentence",
+    "id": 198
+  },
+  {
+    "english": "In addition, ...",
+    "chinese": "此外，…",
+    "category": "5.1 段落过渡",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "补充信息",
+    "type": "sentence",
+    "id": 199
+  },
+  {
+    "english": "Apart from that, ...",
+    "chinese": "除此之外，…",
+    "category": "5.1 段落过渡",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "额外补充",
+    "type": "sentence",
+    "id": 200
+  },
+  {
+    "english": "Last but not least, ...",
+    "chinese": "最后同样重要的是，…",
+    "category": "5.1 段落过渡",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "原因分析末条",
+    "type": "sentence",
+    "id": 201
+  },
+  {
+    "english": "Meanwhile, ...",
+    "chinese": "与此同时，…",
+    "category": "5.1 段落过渡",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "平行观点",
+    "type": "sentence",
+    "id": 202
+  },
+  {
+    "english": "Therefore, ...",
+    "chinese": "因此，…",
+    "category": "5.2 因果推导",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "结论推导",
+    "type": "sentence",
+    "id": 203
+  },
+  {
+    "english": "As a result, ...",
+    "chinese": "结果是，…",
+    "category": "5.2 因果推导",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "直接结果",
+    "type": "sentence",
+    "id": 204
+  },
+  {
+    "english": "Consequently, ...",
+    "chinese": "因此（较正式）",
+    "category": "5.2 因果推导",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "正式结论",
+    "type": "sentence",
+    "id": 205
+  },
+  {
+    "english": "Thus, ...",
+    "chinese": "从而",
+    "category": "5.2 因果推导",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "简洁因果",
+    "type": "sentence",
+    "id": 206
+  },
+  {
+    "english": "Hence, ...",
+    "chinese": "因此（极正式）",
+    "category": "5.2 因果推导",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "高度书面",
+    "type": "sentence",
+    "id": 207
+  },
+  {
+    "english": "For this reason, ...",
+    "chinese": "出于此原因",
+    "category": "5.2 因果推导",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "强调原因",
+    "type": "sentence",
+    "id": 208
+  },
+  {
+    "english": "however",
+    "chinese": "然而（替换 but）",
+    "category": "5.3 转折对比（高分替换）",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "替换: but",
+    "type": "word",
+    "id": 209
+  },
+  {
+    "english": "nevertheless",
+    "chinese": "然而（替换 but）",
+    "category": "5.3 转折对比（高分替换）",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "替换: but",
+    "type": "word",
+    "id": 210
+  },
+  {
+    "english": "nonetheless",
+    "chinese": "然而（替换 but）",
+    "category": "5.3 转折对比（高分替换）",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "替换: but",
+    "type": "word",
+    "id": 211
+  },
+  {
+    "english": "despite the fact that",
+    "chinese": "尽管（替换 although）",
+    "category": "5.3 转折对比（高分替换）",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "替换: although",
+    "type": "word",
+    "id": 212
+  },
+  {
+    "english": "in spite of the fact that",
+    "chinese": "尽管（替换 although）",
+    "category": "5.3 转折对比（高分替换）",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "替换: although",
+    "type": "word",
+    "id": 213
+  },
+  {
+    "english": "on the one hand",
+    "chinese": "一方面（替换 on one hand）",
+    "category": "5.3 转折对比（高分替换）",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "替换: on one hand",
+    "type": "word",
+    "id": 214
+  },
+  {
+    "english": "for one thing",
+    "chinese": "一方面（替换 on one hand）",
+    "category": "5.3 转折对比（高分替换）",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "替换: on one hand",
+    "type": "word",
+    "id": 215
+  },
+  {
+    "english": "likewise",
+    "chinese": "同样地（替换 but also）",
+    "category": "5.3 转折对比（高分替换）",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "替换: but also",
+    "type": "word",
+    "id": 216
+  },
+  {
+    "english": "similarly",
+    "chinese": "同样地（替换 but also）",
+    "category": "5.3 转折对比（高分替换）",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "替换: but also",
+    "type": "word",
+    "id": 217
+  },
+  {
+    "english": "in the same vein",
+    "chinese": "同样地（替换 but also）",
+    "category": "5.3 转折对比（高分替换）",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "替换: but also",
+    "type": "word",
+    "id": 218
+  },
+  {
+    "english": "in contrast",
+    "chinese": "相比之下（替换 different from）",
+    "category": "5.3 转折对比（高分替换）",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "替换: different from",
+    "type": "word",
+    "id": 219
+  },
+  {
+    "english": "by contrast",
+    "chinese": "相比之下（替换 different from）",
+    "category": "5.3 转折对比（高分替换）",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "替换: different from",
+    "type": "word",
+    "id": 220
+  },
+  {
+    "english": "conversely",
+    "chinese": "相比之下（替换 different from）",
+    "category": "5.3 转折对比（高分替换）",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "替换: different from",
+    "type": "word",
+    "id": 221
+  },
+  {
+    "english": "For instance, ...",
+    "chinese": "例如",
+    "category": "5.4 举例论证",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "",
+    "type": "sentence",
+    "id": 222
+  },
+  {
+    "english": "A typical example is...",
+    "chinese": "一个典型例子是…",
+    "category": "5.4 举例论证",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "",
+    "type": "sentence",
+    "id": 223
+  },
+  {
+    "english": "Take... for example.",
+    "chinese": "以…为例。",
+    "category": "5.4 举例论证",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "",
+    "type": "sentence",
+    "id": 224
+  },
+  {
+    "english": "...is a case in point.",
+    "chinese": "…就是一个恰当的例子。",
+    "category": "5.4 举例论证",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "",
+    "type": "sentence",
+    "id": 225
+  },
+  {
+    "english": "As an illustration, ...",
+    "chinese": "作为例证，…",
+    "category": "5.4 举例论证",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "",
+    "type": "sentence",
+    "id": 226
+  },
+  {
+    "english": "...serves as a convincing example.",
+    "chinese": "…是一个有说服力的例子。",
+    "category": "5.4 举例论证",
+    "categoryGroup": "三、大作文：逻辑连接词精编",
+    "notes": "",
+    "type": "sentence",
+    "id": 227
+  },
+  {
+    "english": "Dear Sir or Madam,",
+    "chinese": "尊敬的先生/女士（不知姓名时）",
+    "category": "6.1 书信通用框架",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "位置: 称呼",
+    "type": "sentence",
+    "id": 228
+  },
+  {
+    "english": "Dear Mr. / Ms. + 姓氏,",
+    "chinese": "尊敬的某某先生/女士",
+    "category": "6.1 书信通用框架",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "位置: 称呼",
+    "type": "sentence",
+    "id": 229
+  },
+  {
+    "english": "To whom it may concern,",
+    "chinese": "致相关负责人",
+    "category": "6.1 书信通用框架",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "位置: 称呼",
+    "type": "sentence",
+    "id": 230
+  },
+  {
+    "english": "I am writing to...",
+    "chinese": "我写这封信是为了…",
+    "category": "6.1 书信通用框架",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "位置: 开头",
+    "type": "sentence",
+    "id": 231
+  },
+  {
+    "english": "On behalf of..., I am writing to...",
+    "chinese": "谨代表…写信…",
+    "category": "6.1 书信通用框架",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "位置: 开头",
+    "type": "sentence",
+    "id": 232
+  },
+  {
+    "english": "It is a great pleasure for me to...",
+    "chinese": "我很荣幸…",
+    "category": "6.1 书信通用框架",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "位置: 开头",
+    "type": "sentence",
+    "id": 233
+  },
+  {
+    "english": "I am looking forward to your reply.",
+    "chinese": "期待您的回复。",
+    "category": "6.1 书信通用框架",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "位置: 结尾期待",
+    "type": "sentence",
+    "id": 234
+  },
+  {
+    "english": "Your prompt reply will be highly appreciated.",
+    "chinese": "如蒙速复，不胜感激。",
+    "category": "6.1 书信通用框架",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "位置: 结尾期待",
+    "type": "sentence",
+    "id": 235
+  },
+  {
+    "english": "I would be grateful if you could...",
+    "chinese": "如您能…我将不胜感激。",
+    "category": "6.1 书信通用框架",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "位置: 结尾期待",
+    "type": "sentence",
+    "id": 236
+  },
+  {
+    "english": "Yours sincerely, / Sincerely yours,",
+    "chinese": "您真诚的（知道姓名）",
+    "category": "6.1 书信通用框架",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "位置: 落款",
+    "type": "sentence",
+    "id": 237
+  },
+  {
+    "english": "Yours faithfully, / Faithfully yours,",
+    "chinese": "您忠实的（不知姓名）",
+    "category": "6.1 书信通用框架",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "位置: 落款",
+    "type": "sentence",
+    "id": 238
+  },
+  {
+    "english": "I am writing to offer some suggestions concerning...",
+    "chinese": "我写此信就…提出一些建议。",
+    "category": "建议信 (Letter of Suggestion)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 239
+  },
+  {
+    "english": "It would be beneficial if you could...",
+    "chinese": "如果您能…那将很有益处。",
+    "category": "建议信 (Letter of Suggestion)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 240
+  },
+  {
+    "english": "I would like to propose that...",
+    "chinese": "我建议…（正式）",
+    "category": "建议信 (Letter of Suggestion)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 241
+  },
+  {
+    "english": "My suggestions are as follows.",
+    "chinese": "我的建议如下。",
+    "category": "建议信 (Letter of Suggestion)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 242
+  },
+  {
+    "english": "I hope you will find these suggestions helpful.",
+    "chinese": "希望这些建议对您有帮助。",
+    "category": "建议信 (Letter of Suggestion)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 243
+  },
+  {
+    "english": "It is a great honor for me to invite you to...",
+    "chinese": "我很荣幸邀请您参加…",
+    "category": "邀请信 (Letter of Invitation)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 244
+  },
+  {
+    "english": "I am writing to invite you to...",
+    "chinese": "我写信是想邀请您…",
+    "category": "邀请信 (Letter of Invitation)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 245
+  },
+  {
+    "english": "The event will be held on... at...",
+    "chinese": "活动将于…在…举行。",
+    "category": "邀请信 (Letter of Invitation)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 246
+  },
+  {
+    "english": "Your presence will be greatly appreciated.",
+    "chinese": "您的出席将不胜感激。",
+    "category": "邀请信 (Letter of Invitation)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 247
+  },
+  {
+    "english": "I do hope you can make it.",
+    "chinese": "衷心希望您能来。",
+    "category": "邀请信 (Letter of Invitation)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 248
+  },
+  {
+    "english": "I am writing to express my sincere apology for...",
+    "chinese": "我写信为…表达诚挚歉意。",
+    "category": "道歉信 (Letter of Apology)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 249
+  },
+  {
+    "english": "Please accept my heartfelt apology.",
+    "chinese": "请接受我由衷的歉意。",
+    "category": "道歉信 (Letter of Apology)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 250
+  },
+  {
+    "english": "I deeply regret that...",
+    "chinese": "我为…深感遗憾。",
+    "category": "道歉信 (Letter of Apology)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 251
+  },
+  {
+    "english": "I hope you can understand my situation.",
+    "chinese": "希望您能理解我的处境。",
+    "category": "道歉信 (Letter of Apology)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 252
+  },
+  {
+    "english": "I promise that such a thing will never happen again.",
+    "chinese": "我保证不会再发生类似的事。",
+    "category": "道歉信 (Letter of Apology)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 253
+  },
+  {
+    "english": "I am writing to complain about...",
+    "chinese": "我写信投诉…",
+    "category": "投诉信 (Letter of Complaint)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 254
+  },
+  {
+    "english": "I am dissatisfied",
+    "chinese": "我对…不满意",
+    "category": "投诉信 (Letter of Complaint)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 255
+  },
+  {
+    "english": "disappointed with...",
+    "chinese": "失望。",
+    "category": "投诉信 (Letter of Complaint)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 256
+  },
+  {
+    "english": "I would appreciate it if you could look into this matter.",
+    "chinese": "如您能调查此事，我将不胜感激。",
+    "category": "投诉信 (Letter of Complaint)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 257
+  },
+  {
+    "english": "I hope you will take immediate measures to...",
+    "chinese": "希望您能立即采取措施…",
+    "category": "投诉信 (Letter of Complaint)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 258
+  },
+  {
+    "english": "I trust you will give this matter your immediate attention.",
+    "chinese": "我相信您会立即关注此事。",
+    "category": "投诉信 (Letter of Complaint)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 259
+  },
+  {
+    "english": "I am writing to apply for the position of...",
+    "chinese": "我写信申请…职位。",
+    "category": "求职/申请信 (Letter of Application)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 260
+  },
+  {
+    "english": "I learned from... that you are looking for...",
+    "chinese": "我从…得知您正在招聘…",
+    "category": "求职/申请信 (Letter of Application)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 261
+  },
+  {
+    "english": "I believe I am well qualified for this position.",
+    "chinese": "我相信自己能胜任此职位。",
+    "category": "求职/申请信 (Letter of Application)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 262
+  },
+  {
+    "english": "My major is... and I have rich experience in...",
+    "chinese": "我的专业是…并在…方面有丰富经验。",
+    "category": "求职/申请信 (Letter of Application)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 263
+  },
+  {
+    "english": "Enclosed is my resume for your reference.",
+    "chinese": "随信附上简历供参考。",
+    "category": "求职/申请信 (Letter of Application)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 264
+  },
+  {
+    "english": "I am writing to extend my heartfelt gratitude for...",
+    "chinese": "我写信对…表达由衷感谢。",
+    "category": "感谢信 (Letter of Gratitude)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 265
+  },
+  {
+    "english": "Words fail to express my appreciation.",
+    "chinese": "言语难以表达我的感谢。",
+    "category": "感谢信 (Letter of Gratitude)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 266
+  },
+  {
+    "english": "But for your help, I would not have...",
+    "chinese": "要不是您的帮助，我无法…（虚拟语气加分）",
+    "category": "感谢信 (Letter of Gratitude)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 267
+  },
+  {
+    "english": "Thank you again for your kindness.",
+    "chinese": "再次感谢您的好意。",
+    "category": "感谢信 (Letter of Gratitude)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 268
+  },
+  {
+    "english": "Notice is hereby given that...",
+    "chinese": "兹通知…",
+    "category": "通知 (Notice)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 269
+  },
+  {
+    "english": "All students",
+    "chinese": "全体学生",
+    "category": "通知 (Notice)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "word",
+    "id": 270
+  },
+  {
+    "english": "teachers are required to...",
+    "chinese": "教师需…",
+    "category": "通知 (Notice)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 271
+  },
+  {
+    "english": "Please be informed that...",
+    "chinese": "请知悉…",
+    "category": "通知 (Notice)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 272
+  },
+  {
+    "english": "The activity is scheduled to be held on...",
+    "chinese": "活动定于…举行。",
+    "category": "通知 (Notice)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 273
+  },
+  {
+    "english": "Your participation is warmly welcomed.",
+    "chinese": "热烈欢迎大家参加。",
+    "category": "通知 (Notice)",
+    "categoryGroup": "七、小作文专项词汇与句型",
+    "notes": "",
+    "type": "sentence",
+    "id": 274
+  },
+  {
+    "english": "beneficial",
+    "chinese": "好的；有益的（替换 good）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: good",
+    "type": "word",
+    "id": 275
+  },
+  {
+    "english": "favorable",
+    "chinese": "好的；有益的（替换 good）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: good",
+    "type": "word",
+    "id": 276
+  },
+  {
+    "english": "positive",
+    "chinese": "好的；有益的（替换 good）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: good",
+    "type": "word",
+    "id": 277
+  },
+  {
+    "english": "desirable",
+    "chinese": "好的；有益的（替换 good）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: good",
+    "type": "word",
+    "id": 278
+  },
+  {
+    "english": "rewarding",
+    "chinese": "好的；有益的（替换 good）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: good",
+    "type": "word",
+    "id": 279
+  },
+  {
+    "english": "detrimental",
+    "chinese": "坏的；有害的（替换 bad）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: bad",
+    "type": "word",
+    "id": 280
+  },
+  {
+    "english": "harmful",
+    "chinese": "坏的；有害的（替换 bad）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: bad",
+    "type": "word",
+    "id": 281
+  },
+  {
+    "english": "adverse",
+    "chinese": "坏的；有害的（替换 bad）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: bad",
+    "type": "word",
+    "id": 282
+  },
+  {
+    "english": "undesirable",
+    "chinese": "坏的；有害的（替换 bad）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: bad",
+    "type": "word",
+    "id": 283
+  },
+  {
+    "english": "significant",
+    "chinese": "重要的（替换 important）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: important",
+    "type": "word",
+    "id": 284
+  },
+  {
+    "english": "crucial",
+    "chinese": "重要的（替换 important）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: important",
+    "type": "word",
+    "id": 285
+  },
+  {
+    "english": "vital",
+    "chinese": "重要的（替换 important）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: important",
+    "type": "word",
+    "id": 286
+  },
+  {
+    "english": "essential",
+    "chinese": "重要的（替换 important）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: important",
+    "type": "word",
+    "id": 287
+  },
+  {
+    "english": "indispensable",
+    "chinese": "重要的（替换 important）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: important",
+    "type": "word",
+    "id": 288
+  },
+  {
+    "english": "paramount",
+    "chinese": "重要的（替换 important）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: important",
+    "type": "word",
+    "id": 289
+  },
+  {
+    "english": "enormous",
+    "chinese": "大的（替换 big）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: big",
+    "type": "word",
+    "id": 290
+  },
+  {
+    "english": "substantial",
+    "chinese": "大的（替换 big）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: big",
+    "type": "word",
+    "id": 291
+  },
+  {
+    "english": "tremendous",
+    "chinese": "大的（替换 big）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: big",
+    "type": "word",
+    "id": 292
+  },
+  {
+    "english": "considerable",
+    "chinese": "大的（替换 big）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: big",
+    "type": "word",
+    "id": 293
+  },
+  {
+    "english": "minor",
+    "chinese": "小的（替换 small）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: small",
+    "type": "word",
+    "id": 294
+  },
+  {
+    "english": "trivial",
+    "chinese": "小的（替换 small）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: small",
+    "type": "word",
+    "id": 295
+  },
+  {
+    "english": "negligible",
+    "chinese": "小的（替换 small）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: small",
+    "type": "word",
+    "id": 296
+  },
+  {
+    "english": "marginal",
+    "chinese": "小的（替换 small）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: small",
+    "type": "word",
+    "id": 297
+  },
+  {
+    "english": "numerous",
+    "chinese": "许多（替换 many）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: many",
+    "type": "word",
+    "id": 298
+  },
+  {
+    "english": "a multitude of",
+    "chinese": "许多（替换 many）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: many",
+    "type": "word",
+    "id": 299
+  },
+  {
+    "english": "a host of",
+    "chinese": "许多（替换 many）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: many",
+    "type": "word",
+    "id": 300
+  },
+  {
+    "english": "an array of",
+    "chinese": "许多（替换 many）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: many",
+    "type": "word",
+    "id": 301
+  },
+  {
+    "english": "challenging",
+    "chinese": "困难的（替换 hard）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: hard",
+    "type": "word",
+    "id": 302
+  },
+  {
+    "english": "demanding",
+    "chinese": "困难的（替换 hard）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: hard",
+    "type": "word",
+    "id": 303
+  },
+  {
+    "english": "arduous",
+    "chinese": "困难的（替换 hard）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: hard",
+    "type": "word",
+    "id": 304
+  },
+  {
+    "english": "strenuous",
+    "chinese": "困难的（替换 hard）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: hard",
+    "type": "word",
+    "id": 305
+  },
+  {
+    "english": "effortless",
+    "chinese": "容易的（替换 easy）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: easy",
+    "type": "word",
+    "id": 306
+  },
+  {
+    "english": "straightforward",
+    "chinese": "容易的（替换 easy）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: easy",
+    "type": "word",
+    "id": 307
+  },
+  {
+    "english": "apparent",
+    "chinese": "明显的（替换 clear）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: clear",
+    "type": "word",
+    "id": 308
+  },
+  {
+    "english": "evident",
+    "chinese": "明显的（替换 clear）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: clear",
+    "type": "word",
+    "id": 309
+  },
+  {
+    "english": "manifest",
+    "chinese": "明显的（替换 clear）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: clear",
+    "type": "word",
+    "id": 310
+  },
+  {
+    "english": "conspicuous",
+    "chinese": "明显的（替换 clear）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: clear",
+    "type": "word",
+    "id": 311
+  },
+  {
+    "english": "prevalent",
+    "chinese": "普遍的（替换 common）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: common",
+    "type": "word",
+    "id": 312
+  },
+  {
+    "english": "pervasive",
+    "chinese": "普遍的（替换 common）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: common",
+    "type": "word",
+    "id": 313
+  },
+  {
+    "english": "ubiquitous",
+    "chinese": "普遍的（替换 common）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: common",
+    "type": "word",
+    "id": 314
+  },
+  {
+    "english": "widespread",
+    "chinese": "普遍的（替换 common）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: common",
+    "type": "word",
+    "id": 315
+  },
+  {
+    "english": "diverse",
+    "chinese": "不同的（替换 different）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: different",
+    "type": "word",
+    "id": 316
+  },
+  {
+    "english": "distinct",
+    "chinese": "不同的（替换 different）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: different",
+    "type": "word",
+    "id": 317
+  },
+  {
+    "english": "a variety of",
+    "chinese": "不同的（替换 different）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: different",
+    "type": "word",
+    "id": 318
+  },
+  {
+    "english": "fascinating",
+    "chinese": "有趣的（替换 interesting）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: interesting",
+    "type": "word",
+    "id": 319
+  },
+  {
+    "english": "intriguing",
+    "chinese": "有趣的（替换 interesting）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: interesting",
+    "type": "word",
+    "id": 320
+  },
+  {
+    "english": "compelling",
+    "chinese": "有趣的（替换 interesting）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: interesting",
+    "type": "word",
+    "id": 321
+  },
+  {
+    "english": "thought-provoking",
+    "chinese": "有趣的（替换 interesting）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: interesting",
+    "type": "word",
+    "id": 322
+  },
+  {
+    "english": "practical",
+    "chinese": "有用的（替换 useful）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: useful",
+    "type": "word",
+    "id": 323
+  },
+  {
+    "english": "effective",
+    "chinese": "有用的（替换 useful）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: useful",
+    "type": "word",
+    "id": 324
+  },
+  {
+    "english": "efficient",
+    "chinese": "有用的（替换 useful）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: useful",
+    "type": "word",
+    "id": 325
+  },
+  {
+    "english": "constructive",
+    "chinese": "有用的（替换 useful）",
+    "category": "7.1 形容词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: useful",
+    "type": "word",
+    "id": 326
+  },
+  {
+    "english": "hold the view that",
+    "chinese": "认为（替换 think / believe）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: think / believe",
+    "type": "word",
+    "id": 327
+  },
+  {
+    "english": "be convinced that",
+    "chinese": "认为（替换 think / believe）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: think / believe",
+    "type": "word",
+    "id": 328
+  },
+  {
+    "english": "deem",
+    "chinese": "认为（替换 think / believe）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: think / believe",
+    "type": "word",
+    "id": 329
+  },
+  {
+    "english": "maintain",
+    "chinese": "认为（替换 think / believe）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: think / believe",
+    "type": "word",
+    "id": 330
+  },
+  {
+    "english": "demonstrate",
+    "chinese": "表明（替换 show）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: show",
+    "type": "word",
+    "id": 331
+  },
+  {
+    "english": "illustrate",
+    "chinese": "表明（替换 show）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: show",
+    "type": "word",
+    "id": 332
+  },
+  {
+    "english": "indicate",
+    "chinese": "表明（替换 show）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: show",
+    "type": "word",
+    "id": 333
+  },
+  {
+    "english": "reveal",
+    "chinese": "表明（替换 show）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: show",
+    "type": "word",
+    "id": 334
+  },
+  {
+    "english": "manifest",
+    "chinese": "表明（替换 show）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: show",
+    "type": "word",
+    "id": 335
+  },
+  {
+    "english": "obtain",
+    "chinese": "获得（替换 get）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: get",
+    "type": "word",
+    "id": 336
+  },
+  {
+    "english": "acquire",
+    "chinese": "获得（替换 get）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: get",
+    "type": "word",
+    "id": 337
+  },
+  {
+    "english": "gain",
+    "chinese": "获得（替换 get）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: get",
+    "type": "word",
+    "id": 338
+  },
+  {
+    "english": "attain",
+    "chinese": "获得（替换 get）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: get",
+    "type": "word",
+    "id": 339
+  },
+  {
+    "english": "secure",
+    "chinese": "获得（替换 get）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: get",
+    "type": "word",
+    "id": 340
+  },
+  {
+    "english": "provide",
+    "chinese": "提供（替换 give）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: give",
+    "type": "word",
+    "id": 341
+  },
+  {
+    "english": "offer",
+    "chinese": "提供（替换 give）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: give",
+    "type": "word",
+    "id": 342
+  },
+  {
+    "english": "supply",
+    "chinese": "提供（替换 give）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: give",
+    "type": "word",
+    "id": 343
+  },
+  {
+    "english": "render",
+    "chinese": "提供（替换 give）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: give",
+    "type": "word",
+    "id": 344
+  },
+  {
+    "english": "grant",
+    "chinese": "提供（替换 give）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: give",
+    "type": "word",
+    "id": 345
+  },
+  {
+    "english": "lead to",
+    "chinese": "导致（替换 cause）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: cause",
+    "type": "word",
+    "id": 346
+  },
+  {
+    "english": "result in",
+    "chinese": "导致（替换 cause）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: cause",
+    "type": "word",
+    "id": 347
+  },
+  {
+    "english": "give rise to",
+    "chinese": "导致（替换 cause）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: cause",
+    "type": "word",
+    "id": 348
+  },
+  {
+    "english": "bring about",
+    "chinese": "导致（替换 cause）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: cause",
+    "type": "word",
+    "id": 349
+  },
+  {
+    "english": "trigger",
+    "chinese": "导致（替换 cause）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: cause",
+    "type": "word",
+    "id": 350
+  },
+  {
+    "english": "address",
+    "chinese": "解决（替换 solve）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: solve",
+    "type": "word",
+    "id": 351
+  },
+  {
+    "english": "tackle",
+    "chinese": "解决（替换 solve）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: solve",
+    "type": "word",
+    "id": 352
+  },
+  {
+    "english": "resolve",
+    "chinese": "解决（替换 solve）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: solve",
+    "type": "word",
+    "id": 353
+  },
+  {
+    "english": "cope with",
+    "chinese": "解决（替换 solve）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: solve",
+    "type": "word",
+    "id": 354
+  },
+  {
+    "english": "deal with",
+    "chinese": "解决（替换 solve）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: solve",
+    "type": "word",
+    "id": 355
+  },
+  {
+    "english": "possess",
+    "chinese": "拥有（替换 have）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: have",
+    "type": "word",
+    "id": 356
+  },
+  {
+    "english": "own",
+    "chinese": "拥有（替换 have）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: have",
+    "type": "word",
+    "id": 357
+  },
+  {
+    "english": "be equipped with",
+    "chinese": "拥有（替换 have）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: have",
+    "type": "word",
+    "id": 358
+  },
+  {
+    "english": "be endowed with",
+    "chinese": "拥有（替换 have）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: have",
+    "type": "word",
+    "id": 359
+  },
+  {
+    "english": "utilize",
+    "chinese": "使用（替换 use）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: use",
+    "type": "word",
+    "id": 360
+  },
+  {
+    "english": "employ",
+    "chinese": "使用（替换 use）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: use",
+    "type": "word",
+    "id": 361
+  },
+  {
+    "english": "apply",
+    "chinese": "使用（替换 use）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: use",
+    "type": "word",
+    "id": 362
+  },
+  {
+    "english": "exploit",
+    "chinese": "使用（替换 use）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: use",
+    "type": "word",
+    "id": 363
+  },
+  {
+    "english": "harness",
+    "chinese": "使用（替换 use）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: use",
+    "type": "word",
+    "id": 364
+  },
+  {
+    "english": "assist",
+    "chinese": "帮助（替换 help）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: help",
+    "type": "word",
+    "id": 365
+  },
+  {
+    "english": "aid",
+    "chinese": "帮助（替换 help）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: help",
+    "type": "word",
+    "id": 366
+  },
+  {
+    "english": "facilitate",
+    "chinese": "帮助（替换 help）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: help",
+    "type": "word",
+    "id": 367
+  },
+  {
+    "english": "promote",
+    "chinese": "帮助（替换 help）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: help",
+    "type": "word",
+    "id": 368
+  },
+  {
+    "english": "create",
+    "chinese": "制造；培养（替换 make）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: make",
+    "type": "word",
+    "id": 369
+  },
+  {
+    "english": "produce",
+    "chinese": "制造；培养（替换 make）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: make",
+    "type": "word",
+    "id": 370
+  },
+  {
+    "english": "generate",
+    "chinese": "制造；培养（替换 make）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: make",
+    "type": "word",
+    "id": 371
+  },
+  {
+    "english": "foster",
+    "chinese": "制造；培养（替换 make）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: make",
+    "type": "word",
+    "id": 372
+  },
+  {
+    "english": "cultivate",
+    "chinese": "制造；培养（替换 make）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: make",
+    "type": "word",
+    "id": 373
+  },
+  {
+    "english": "state",
+    "chinese": "说；声称（替换 say）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: say",
+    "type": "word",
+    "id": 374
+  },
+  {
+    "english": "claim",
+    "chinese": "说；声称（替换 say）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: say",
+    "type": "word",
+    "id": 375
+  },
+  {
+    "english": "assert",
+    "chinese": "说；声称（替换 say）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: say",
+    "type": "word",
+    "id": 376
+  },
+  {
+    "english": "argue",
+    "chinese": "说；声称（替换 say）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: say",
+    "type": "word",
+    "id": 377
+  },
+  {
+    "english": "contend",
+    "chinese": "说；声称（替换 say）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: say",
+    "type": "word",
+    "id": 378
+  },
+  {
+    "english": "declare",
+    "chinese": "说；声称（替换 say）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: say",
+    "type": "word",
+    "id": 379
+  },
+  {
+    "english": "require",
+    "chinese": "需要（替换 need）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: need",
+    "type": "word",
+    "id": 380
+  },
+  {
+    "english": "necessitate",
+    "chinese": "需要（替换 need）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: need",
+    "type": "word",
+    "id": 381
+  },
+  {
+    "english": "call for",
+    "chinese": "需要（替换 need）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: need",
+    "type": "word",
+    "id": 382
+  },
+  {
+    "english": "demand",
+    "chinese": "需要（替换 need）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: need",
+    "type": "word",
+    "id": 383
+  },
+  {
+    "english": "transform",
+    "chinese": "改变（替换 change）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: change",
+    "type": "word",
+    "id": 384
+  },
+  {
+    "english": "alter",
+    "chinese": "改变（替换 change）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: change",
+    "type": "word",
+    "id": 385
+  },
+  {
+    "english": "modify",
+    "chinese": "改变（替换 change）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: change",
+    "type": "word",
+    "id": 386
+  },
+  {
+    "english": "convert",
+    "chinese": "改变（替换 change）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: change",
+    "type": "word",
+    "id": 387
+  },
+  {
+    "english": "shift",
+    "chinese": "改变（替换 change）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: change",
+    "type": "word",
+    "id": 388
+  },
+  {
+    "english": "stress",
+    "chinese": "强调（替换 emphasize）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: emphasize",
+    "type": "word",
+    "id": 389
+  },
+  {
+    "english": "highlight",
+    "chinese": "强调（替换 emphasize）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: emphasize",
+    "type": "word",
+    "id": 390
+  },
+  {
+    "english": "underscore",
+    "chinese": "强调（替换 emphasize）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: emphasize",
+    "type": "word",
+    "id": 391
+  },
+  {
+    "english": "lay emphasis on",
+    "chinese": "强调（替换 emphasize）",
+    "category": "7.2 动词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: emphasize",
+    "type": "word",
+    "id": 392
+  },
+  {
+    "english": "extremely",
+    "chinese": "非常（替换 very）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: very",
+    "type": "word",
+    "id": 393
+  },
+  {
+    "english": "exceedingly",
+    "chinese": "非常（替换 very）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: very",
+    "type": "word",
+    "id": 394
+  },
+  {
+    "english": "remarkably",
+    "chinese": "非常（替换 very）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: very",
+    "type": "word",
+    "id": 395
+  },
+  {
+    "english": "immensely",
+    "chinese": "非常（替换 very）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: very",
+    "type": "word",
+    "id": 396
+  },
+  {
+    "english": "rapidly",
+    "chinese": "快速地（替换 quickly）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: quickly",
+    "type": "word",
+    "id": 397
+  },
+  {
+    "english": "swiftly",
+    "chinese": "快速地（替换 quickly）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: quickly",
+    "type": "word",
+    "id": 398
+  },
+  {
+    "english": "at an alarming rate",
+    "chinese": "快速地（替换 quickly）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: quickly",
+    "type": "word",
+    "id": 399
+  },
+  {
+    "english": "gradually",
+    "chinese": "缓慢地（替换 slowly）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: slowly",
+    "type": "word",
+    "id": 400
+  },
+  {
+    "english": "steadily",
+    "chinese": "缓慢地（替换 slowly）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: slowly",
+    "type": "word",
+    "id": 401
+  },
+  {
+    "english": "at a moderate pace",
+    "chinese": "缓慢地（替换 slowly）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: slowly",
+    "type": "word",
+    "id": 402
+  },
+  {
+    "english": "thoroughly",
+    "chinese": "完全地（替换 completely）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: completely",
+    "type": "word",
+    "id": 403
+  },
+  {
+    "english": "entirely",
+    "chinese": "完全地（替换 completely）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: completely",
+    "type": "word",
+    "id": 404
+  },
+  {
+    "english": "absolutely",
+    "chinese": "完全地（替换 completely）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: completely",
+    "type": "word",
+    "id": 405
+  },
+  {
+    "english": "utterly",
+    "chinese": "完全地（替换 completely）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: completely",
+    "type": "word",
+    "id": 406
+  },
+  {
+    "english": "virtually",
+    "chinese": "几乎（替换 almost）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: almost",
+    "type": "word",
+    "id": 407
+  },
+  {
+    "english": "practically",
+    "chinese": "几乎（替换 almost）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: almost",
+    "type": "word",
+    "id": 408
+  },
+  {
+    "english": "approximately",
+    "chinese": "几乎（替换 almost）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: almost",
+    "type": "word",
+    "id": 409
+  },
+  {
+    "english": "apparently",
+    "chinese": "明显地（替换 clearly）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: clearly",
+    "type": "word",
+    "id": 410
+  },
+  {
+    "english": "evidently",
+    "chinese": "明显地（替换 clearly）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: clearly",
+    "type": "word",
+    "id": 411
+  },
+  {
+    "english": "conspicuously",
+    "chinese": "明显地（替换 clearly）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: clearly",
+    "type": "word",
+    "id": 412
+  },
+  {
+    "english": "primarily",
+    "chinese": "主要地（替换 mainly）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: mainly",
+    "type": "word",
+    "id": 413
+  },
+  {
+    "english": "principally",
+    "chinese": "主要地（替换 mainly）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: mainly",
+    "type": "word",
+    "id": 414
+  },
+  {
+    "english": "predominantly",
+    "chinese": "主要地（替换 mainly）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: mainly",
+    "type": "word",
+    "id": 415
+  },
+  {
+    "english": "largely",
+    "chinese": "主要地（替换 mainly）",
+    "category": "7.3 副词替换",
+    "categoryGroup": "四、高分替换词速查",
+    "notes": "替换: mainly",
+    "type": "word",
+    "id": 416
+  },
+  {
+    "english": "attach great importance to",
+    "chinese": "高度重视",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 417
+  },
+  {
+    "english": "take... into consideration / account",
+    "chinese": "把…考虑在内",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "sentence",
+    "id": 418
+  },
+  {
+    "english": "play a crucial role in",
+    "chinese": "在…中起关键作用",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "sentence",
+    "id": 419
+  },
+  {
+    "english": "make a difference",
+    "chinese": "产生影响",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 420
+  },
+  {
+    "english": "keep pace with",
+    "chinese": "跟上…的步伐",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 421
+  },
+  {
+    "english": "give priority to",
+    "chinese": "优先考虑",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 422
+  },
+  {
+    "english": "strike a balance between A and B",
+    "chinese": "在A与B之间取得平衡",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "sentence",
+    "id": 423
+  },
+  {
+    "english": "bear in mind / keep in mind",
+    "chinese": "牢记",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "sentence",
+    "id": 424
+  },
+  {
+    "english": "be confronted",
+    "chinese": "面临",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 425
+  },
+  {
+    "english": "faced with",
+    "chinese": "面临",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 426
+  },
+  {
+    "english": "be bound to",
+    "chinese": "一定会；必然会",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 427
+  },
+  {
+    "english": "contribute to",
+    "chinese": "有助于；导致",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 428
+  },
+  {
+    "english": "have access to",
+    "chinese": "可以使用/接触",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 429
+  },
+  {
+    "english": "be aware of / raise awareness of",
+    "chinese": "意识到 / 提高…的意识",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "sentence",
+    "id": 430
+  },
+  {
+    "english": "be committed",
+    "chinese": "致力于",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 431
+  },
+  {
+    "english": "dedicated to",
+    "chinese": "致力于",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 432
+  },
+  {
+    "english": "pave the way for",
+    "chinese": "为…铺平道路",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 433
+  },
+  {
+    "english": "lay a solid foundation for",
+    "chinese": "为…打下坚实基础",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "sentence",
+    "id": 434
+  },
+  {
+    "english": "put forward",
+    "chinese": "提出",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 435
+  },
+  {
+    "english": "come up with",
+    "chinese": "提出",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 436
+  },
+  {
+    "english": "take effective measures",
+    "chinese": "采取有效措施",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 437
+  },
+  {
+    "english": "be responsible for / be accountable for",
+    "chinese": "对…负责",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "sentence",
+    "id": 438
+  },
+  {
+    "english": "have a profound impact",
+    "chinese": "对…有深远影响",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 439
+  },
+  {
+    "english": "influence on",
+    "chinese": "对…有深远影响",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 440
+  },
+  {
+    "english": "adapt to / adjust to",
+    "chinese": "适应",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "sentence",
+    "id": 441
+  },
+  {
+    "english": "make the most of / make full use of",
+    "chinese": "充分利用",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "sentence",
+    "id": 442
+  },
+  {
+    "english": "at the cost",
+    "chinese": "以…为代价",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 443
+  },
+  {
+    "english": "expense of",
+    "chinese": "以…为代价",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 444
+  },
+  {
+    "english": "bridge the gap between",
+    "chinese": "缩小…之间的差距",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 445
+  },
+  {
+    "english": "on the basis of",
+    "chinese": "在…的基础上",
+    "category": "五、高频写作短语",
+    "categoryGroup": "五、高频写作短语",
+    "notes": "",
+    "type": "word",
+    "id": 446
+  }
+];
+
+// ===== CONSTANTS =====
+const STORAGE_KEY = 'vocab_spelling_data';
+const REVIEW_INTERVALS = [1, 3, 7, 14, 30]; // days
+
+// ===== STATE =====
+let appState = {
+  masteredWords: new Set(),       // Set of word IDs that are mastered
+  reviewData: {},                 // { [wordId]: { interval, repetitions, easiness, nextReviewDate, lastReviewDate } }
+  practiceHistory: [],            // [{ wordId, correct, timestamp }]
+  accuracyData: { total: 0, correct: 0 },
+  currentCategory: 'all',         // selected category filter
+  currentTab: 'practice',         // active tab
+  practiceQueue: [],              // current practice queue (filtered, shuffled)
+  practiceIndex: 0,               // current position in practice queue
+  practiceAnswered: false,        // whether current word has been answered
+  practiceMode: 'spelling',       // 'spelling' = 看中文默写英文, 'copying' = 看英文抄写
+  showCopyChinese: false,         // whether to show Chinese in copy mode (persistent toggle)
+  reviewActive: false,            // whether in review mode
+  reviewQueue: [],                // review-specific queue
+  reviewIndex: 0,
+  reviewAnswered: false,
+};
+
+// ===== PERSISTENCE =====
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const saved = JSON.parse(raw);
+      appState.masteredWords = new Set(saved.masteredWords || []);
+      appState.reviewData = saved.reviewData || {};
+      appState.practiceHistory = saved.practiceHistory || [];
+      appState.accuracyData = saved.accuracyData || { total: 0, correct: 0 };
+      appState.practiceMode = saved.practiceMode || 'spelling';
+      appState.showCopyChinese = saved.showCopyChinese || false;
+    }
+  } catch (e) {
+    console.warn('Failed to load state:', e);
+  }
+}
+
+function saveState() {
+  try {
+    const toSave = {
+      masteredWords: Array.from(appState.masteredWords),
+      reviewData: appState.reviewData,
+      practiceHistory: appState.practiceHistory.slice(-500), // keep last 500
+      accuracyData: appState.accuracyData,
+      practiceMode: appState.practiceMode,
+      showCopyChinese: appState.showCopyChinese,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+  } catch (e) {
+    console.warn('Failed to save state:', e);
+  }
+}
+
+// ===== HELPERS =====
+function getWordStatus(wordId) {
+  if (appState.masteredWords.has(wordId)) return 'mastered';
+  if (appState.reviewData[wordId] && appState.reviewData[wordId].repetitions > 0) return 'learning';
+  return 'not-learned';
+}
+
+function getStatusLabel(status) {
+  const map = { 'not-learned': '未学习', 'learning': '学习中', 'mastered': '已掌握' };
+  return map[status] || '未知';
+}
+
+function getStatusClass(status) {
+  return 'status-badge ' + status;
+}
+
+function getTodayStr() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function isDueToday(wordId) {
+  const rd = appState.reviewData[wordId];
+  if (!rd || !rd.nextReviewDate) return true; // never reviewed = due
+  return rd.nextReviewDate <= getTodayStr();
+}
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function normalizeAnswer(text) {
+  // case-insensitive, trim whitespace, collapse multiple spaces
+  return text.trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
+function getFilteredEntries(category, excludeMastered = true) {
+  let entries;
+  if (category === 'all') {
+    entries = [...VOCAB_DATA];
+  } else {
+    const parts = category.split('|||');
+    if (parts.length === 2) {
+      entries = VOCAB_DATA.filter(e => e.categoryGroup === parts[0] && e.category === parts[1]);
+    } else {
+      entries = VOCAB_DATA.filter(e => e.categoryGroup === category);
+    }
+  }
+  if (excludeMastered) {
+    entries = entries.filter(e => !appState.masteredWords.has(e.id));
+  }
+  return entries;
+}
+
+// ===== SM-2 ALGORITHM =====
+function updateReviewData(wordId, quality) {
+  // quality: 5=perfect, 4=correct, 3=correct(hard), 2=wrong(easy), 1=wrong(hard), 0=blackout
+  let rd = appState.reviewData[wordId] || {
+    interval: 0,
+    repetitions: 0,
+    easiness: 2.5,
+    nextReviewDate: getTodayStr(),
+    lastReviewDate: null,
+  };
+
+  rd.lastReviewDate = getTodayStr();
+
+  if (quality >= 3) {
+    // Correct answer
+    if (rd.repetitions === 0) {
+      rd.interval = 1;
+    } else if (rd.repetitions === 1) {
+      rd.interval = 3;
+    } else if (rd.repetitions === 2) {
+      rd.interval = 7;
+    } else if (rd.repetitions === 3) {
+      rd.interval = 14;
+    } else {
+      rd.interval = Math.round(rd.interval * rd.easiness);
+    }
+    rd.repetitions += 1;
+    rd.easiness = Math.max(1.3, rd.easiness + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02)));
+  } else {
+    // Incorrect answer
+    rd.repetitions = 0;
+    rd.interval = 1;
+    rd.easiness = Math.max(1.3, rd.easiness - 0.2);
+  }
+
+  // Calculate next review date
+  const nextDate = new Date();
+  nextDate.setDate(nextDate.getDate() + rd.interval);
+  rd.nextReviewDate = nextDate.toISOString().split('T')[0];
+
+  appState.reviewData[wordId] = rd;
+  saveState();
+}
+
+// ===== SIDEBAR =====
+function getCategoryOrder() {
+  return [
+    '一、大作文：图画描述词汇',
+    '二、大作文：寓意分析与论述词汇',
+    '三、大作文：逻辑连接词精编',
+    '四、高分替换词速查',
+    '五、高频写作短语',
+    '六、大作文：分话题高频词汇',
+    '七、小作文专项词汇与句型',
+    '八、大作文三段式万能句型',
+  ];
+}
+
+function buildSidebar() {
+  const nav = document.getElementById('sidebarNav');
+  nav.innerHTML = ''; // Clear before rebuild to prevent duplication
+
+  // Group entries
+  const groups = {};
+  VOCAB_DATA.forEach(e => {
+    const g = e.categoryGroup || '其他';
+    if (!groups[g]) groups[g] = {};
+    const c = e.category || '其他';
+    if (!groups[g][c]) groups[g][c] = 0;
+    groups[g][c]++;
+  });
+
+  // "All" button
+  const allBtn = document.createElement('div');
+  allBtn.className = 'nav-all' + (appState.currentCategory === 'all' ? ' active' : '');
+  allBtn.innerHTML = `<span>全部词汇</span><span class="count">${VOCAB_DATA.length}</span>`;
+  allBtn.addEventListener('click', () => { selectCategory('all'); });
+  nav.appendChild(allBtn);
+
+  // Category groups — sorted by custom order
+  const groupNames = Object.keys(groups);
+  const order = getCategoryOrder();
+  groupNames.sort((a, b) => {
+    const ai = order.indexOf(a), bi = order.indexOf(b);
+    return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+  });
+
+  for (const groupName of groupNames) {
+    const cats = groups[groupName];
+    const totalInGroup = Object.values(cats).reduce((a, b) => a + b, 0);
+    
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'cat-group';
+    
+    const header = document.createElement('div');
+    header.className = 'cat-group-header expanded';
+    header.innerHTML = `<span class="arrow">&#9654;</span><span>${truncateText(groupName, 22)}</span><span class="count">${totalInGroup}</span>`;
+    header.addEventListener('click', () => {
+      header.classList.toggle('expanded');
+    });
+    
+    const items = document.createElement('div');
+    items.className = 'cat-items';
+    
+    for (const [catName, count] of Object.entries(cats)) {
+      const item = document.createElement('div');
+      item.className = 'cat-item';
+      const catKey = groupName + '|||' + catName;
+      if (appState.currentCategory === catKey) item.classList.add('active');
+      item.innerHTML = `<span>${truncateText(catName, 24)}</span><span class="count">${count}</span>`;
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectCategory(catKey);
+      });
+      items.appendChild(item);
+    }
+    
+    groupDiv.appendChild(header);
+    groupDiv.appendChild(items);
+    nav.appendChild(groupDiv);
+  }
+}
+
+function truncateText(text, maxLen) {
+  return text.length > maxLen ? text.slice(0, maxLen) + '...' : text;
+}
+
+function selectCategory(catKey) {
+  appState.currentCategory = catKey;
+  appState.practiceIndex = 0;
+  appState.practiceAnswered = false;
+  appState.practiceQueue = [];
+  appState.reviewActive = false;
+  updatePracticeQueue();
+  renderPractice();
+  
+  // Update sidebar highlights
+  document.querySelectorAll('.nav-all').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.cat-item').forEach(el => el.classList.remove('active'));
+  
+  if (catKey === 'all') {
+    document.querySelector('.nav-all').classList.add('active');
+  } else {
+    const target = document.querySelector(`.cat-item[data-key="${catKey}"]`);
+    // Rebuild to refresh
+  }
+  buildSidebar();
+}
+
+// ===== PRACTICE MODE =====
+function updatePracticeQueue() {
+  let entries = getFilteredEntries(appState.currentCategory, true);
+  appState.practiceQueue = shuffleArray([...entries]);
+  appState.practiceIndex = 0;
+  appState.practiceAnswered = false;
+}
+
+function getCurrentWord() {
+  if (appState.practiceIndex >= appState.practiceQueue.length) return null;
+  return appState.practiceQueue[appState.practiceIndex];
+}
+
+function renderPractice() {
+  const word = getCurrentWord();
+  const card = document.getElementById('practiceCard');
+  const empty = document.getElementById('practiceEmpty');
+  const input = document.getElementById('practiceInput');
+  const feedback = document.getElementById('practiceFeedback');
+  const btnNext = document.getElementById('btnNext');
+  const btnSkip = document.getElementById('btnSkip');
+  const btnSubmit = document.getElementById('btnSubmit');
+  const btnMastered = document.getElementById('btnMastered');
+  const notesDiv = document.getElementById('practiceNotes');
+  const notesToggle = document.getElementById('btnNotesToggle');
+  const chineseEl = document.getElementById('practiceChinese');
+
+  // Reset
+  input.value = '';
+  input.className = 'practice-input';
+  feedback.className = 'practice-feedback';
+  feedback.innerHTML = '';
+  btnNext.classList.remove('show');
+  btnSkip.style.display = '';
+  btnSkip.textContent = '\u23ED 跳过';
+  btnSubmit.style.display = '';
+  notesDiv.classList.remove('show');
+  notesDiv.innerHTML = '';
+  appState.practiceAnswered = false;
+
+  // Update mode toggle buttons
+  document.getElementById('modeSpelling').className = 'mode-btn' + (appState.practiceMode === 'spelling' ? ' active' : '');
+  document.getElementById('modeCopying').className = 'mode-btn' + (appState.practiceMode === 'copying' ? ' active' : '');
+
+  if (!word) {
+    card.style.display = 'none';
+    empty.style.display = 'block';
+    document.getElementById('practiceProgress').innerHTML = '';
+    chineseEl.textContent = '';
+    document.getElementById('practiceHint').innerHTML = '';
+    btnMastered.style.display = 'none';
+    notesToggle.style.display = 'none';
+    return;
+  }
+
+  card.style.display = '';
+  empty.style.display = 'none';
+  btnMastered.style.display = '';
+  notesToggle.style.display = '';
+
+  // Check if current word is mastered
+  const isMastered = appState.masteredWords.has(word.id);
+  btnMastered.textContent = isMastered ? '\u2B50 取消掌握' : '\u2B50 标记掌握';
+  btnMastered.className = 'btn-action btn-mastered' + (isMastered ? ' mastered' : '');
+
+  // Progress
+  const total = appState.practiceQueue.length;
+  const current = appState.practiceIndex + 1;
+  const pct = Math.round((appState.practiceIndex / total) * 100);
+  document.getElementById('practiceProgress').innerHTML = `
+    <span>${current} / ${total}</span>
+    <div class="progress-bar-wrap"><div class="progress-bar-inner" style="width:${pct}%"></div></div>
+    <span>${pct}%</span>
+  `;
+
+  if (appState.practiceMode === 'copying') {
+    // Copy mode: show English, user copies it
+    chineseEl.textContent = word.english;
+    chineseEl.style.fontSize = word.type === 'sentence' ? '20px' : '28px';
+    document.getElementById('practiceHint').innerHTML = `
+      <span class="category-tag">抄写模式</span>
+      <span class="type-tag">${word.type === 'sentence' ? '句型' : '单词/短语'}</span>
+    `;
+    input.placeholder = '抄写上方内容...';
+    // Show Chinese toggle — persist state across words
+    const copyCnDiv = document.getElementById('practiceCopyCn');
+    copyCnDiv.textContent = word.chinese;
+    copyCnDiv.className = 'practice-copy-cn' + (appState.showCopyChinese ? ' show' : '');
+    const copyCnToggle = document.getElementById('btnCopyCnToggle');
+    copyCnToggle.className = 'btn-action btn-copy-cn-toggle show';
+    copyCnToggle.textContent = appState.showCopyChinese ? '\uD83D\uDC41 隐藏中文' : '\uD83D\uDC41 显示中文';
+  } else {
+    // Spelling mode: show Chinese, user types English
+    chineseEl.textContent = word.chinese;
+    chineseEl.style.fontSize = '28px';
+    const typeLabel = word.type === 'sentence' ? '句型' : '单词/短语';
+    document.getElementById('practiceHint').innerHTML = `
+      <span class="category-tag">${word.category || ''}</span>
+      <span class="type-tag">${typeLabel}</span>
+    `;
+    input.placeholder = '输入英文...';
+    // Hide copy-mode Chinese elements
+    document.getElementById('practiceCopyCn').className = 'practice-copy-cn';
+    document.getElementById('btnCopyCnToggle').className = 'btn-action btn-copy-cn-toggle';
+  }
+
+  // Notes
+  if (word.notes) {
+    notesDiv.textContent = '\uD83D\uDCCC ' + word.notes;
+  } else {
+    notesDiv.textContent = '\uD83D\uDCCC 暂无额外提示';
+  }
+
+  input.focus();
+}
+
+function submitAnswer() {
+  if (appState.practiceAnswered) return;
+  const word = getCurrentWord();
+  if (!word) return;
+
+  const input = document.getElementById('practiceInput');
+  const feedback = document.getElementById('practiceFeedback');
+  const btnNext = document.getElementById('btnNext');
+  const btnSubmit = document.getElementById('btnSubmit');
+  const userAnswer = normalizeAnswer(input.value);
+  const correctAnswer = normalizeAnswer(word.english);
+
+  appState.practiceAnswered = true;
+
+  // Check correctness
+  const isCorrect = userAnswer === correctAnswer;
+
+  // Update accuracy
+  appState.accuracyData.total += 1;
+  if (isCorrect) appState.accuracyData.correct += 1;
+
+  // Record history
+  appState.practiceHistory.push({
+    wordId: word.id,
+    correct: isCorrect,
+    timestamp: Date.now(),
+  });
+
+  // Update review data
+  updateReviewData(word.id, isCorrect ? 4 : 1);
+
+  // Show feedback
+  input.className = 'practice-input ' + (isCorrect ? 'correct' : 'incorrect');
+  feedback.className = 'practice-feedback show ' + (isCorrect ? 'correct' : 'incorrect');
+  
+  if (isCorrect) {
+    feedback.innerHTML = `
+      <div>&#x2705; <strong>正确!</strong></div>
+      <div class="feedback-answer">${word.english}</div>
+    `;
+  } else {
+    feedback.innerHTML = `
+      <div>&#x274C; <strong>不正确</strong></div>
+      <div>你的输入: <em>${escapeHtml(input.value.trim())}</em></div>
+      <div class="feedback-answer">正确答案: ${word.english}</div>
+    `;
+  }
+
+  btnSubmit.style.display = 'none';
+  document.getElementById('btnSkip').style.display = 'none';
+  btnNext.classList.add('show');
+  btnNext.focus();
+
+  saveState();
+}
+
+function goNext() {
+  appState.practiceIndex++;
+  appState.practiceAnswered = false;
+  
+  if (appState.practiceIndex >= appState.practiceQueue.length) {
+    // Reshuffle
+    updatePracticeQueue();
+  }
+  
+  renderPractice();
+  updateAllStats();
+}
+
+function goPrev() {
+  if (appState.practiceIndex <= 0) return;
+  appState.practiceIndex--;
+  appState.practiceAnswered = false;
+  renderPractice();
+  updateAllStats();
+}
+
+function toggleMastered() {
+  const word = getCurrentWord();
+  if (!word) return;
+
+  if (appState.masteredWords.has(word.id)) {
+    appState.masteredWords.delete(word.id);
+  } else {
+    appState.masteredWords.add(word.id);
+  }
+  
+  saveState();
+  updatePracticeQueue();
+  renderPractice();
+  updateAllStats();
+}
+
+function setPracticeMode(mode) {
+  appState.practiceMode = mode;
+  appState.practiceAnswered = false;
+  saveState();
+  renderPractice();
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ===== WORD BOOK =====
+function populateWordbookCategories() {
+  const groups = [];
+  const seen = new Set();
+  VOCAB_DATA.forEach(e => {
+    const g = e.categoryGroup || '其他';
+    if (!seen.has(g)) { seen.add(g); groups.push(g); }
+  });
+  // Sort by the same custom order as the sidebar
+  const order = getCategoryOrder();
+  groups.sort((a, b) => {
+    const ai = order.indexOf(a), bi = order.indexOf(b);
+    return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+  });
+  const sel = document.getElementById('wbCategoryFilter');
+  sel.innerHTML = '<option value="all">全部分类</option>';
+  groups.forEach(g => {
+    sel.innerHTML += `<option value="${escapeHtml(g)}">${escapeHtml(g)}</option>`;
+  });
+}
+
+function renderWordBook() {
+  const searchTerm = document.getElementById('wbSearch').value.toLowerCase();
+  const statusFilter = document.getElementById('wbStatusFilter').value;
+  const typeFilter = document.getElementById('wbTypeFilter').value;
+  const catFilter = document.getElementById('wbCategoryFilter').value;
+
+  let entries = [...VOCAB_DATA];
+
+  // Apply filters
+  if (searchTerm) {
+    entries = entries.filter(e => 
+      e.english.toLowerCase().includes(searchTerm) || 
+      e.chinese.includes(searchTerm)
+    );
+  }
+  if (statusFilter !== 'all') {
+    entries = entries.filter(e => getWordStatus(e.id) === statusFilter);
+  }
+  if (typeFilter !== 'all') {
+    entries = entries.filter(e => e.type === typeFilter);
+  }
+  if (catFilter !== 'all') {
+    entries = entries.filter(e => e.categoryGroup === catFilter);
+  }
+
+  document.getElementById('wbCount').textContent = `共 ${entries.length} 条`;
+
+  let html = `<table><thead><tr>
+    <th>#</th><th>英文</th><th>中文</th><th>分类</th><th>类型</th><th>状态</th><th>操作</th>
+  </tr></thead><tbody>`;
+
+  entries.forEach((e, idx) => {
+    const status = getWordStatus(e.id);
+    const typeLabel = e.type === 'sentence' ? '句型' : '单词';
+    html += `<tr>
+      <td>${idx + 1}</td>
+      <td style="font-weight:600;color:#222">${escapeHtml(e.english)}</td>
+      <td>${escapeHtml(e.chinese)}</td>
+      <td style="font-size:12px;color:#888">${escapeHtml(e.category || '')}</td>
+      <td><span class="${getStatusClass(status)}" style="font-size:11px">${typeLabel}</span></td>
+      <td><span class="${getStatusClass(status)}">${getStatusLabel(status)}</span></td>
+      <td>
+        <button class="mastered-toggle ${status === 'mastered' ? 'is-mastered' : ''}" 
+                onclick="toggleWordMastered(${e.id})">
+          ${status === 'mastered' ? '已掌握' : '标记掌握'}
+        </button>
+      </td>
+    </tr>`;
+  });
+
+  html += '</tbody></table>';
+  document.getElementById('wordTable').innerHTML = html;
+}
+
+function toggleWordMastered(wordId) {
+  if (appState.masteredWords.has(wordId)) {
+    appState.masteredWords.delete(wordId);
+  } else {
+    appState.masteredWords.add(wordId);
+  }
+  saveState();
+  renderWordBook();
+  updateAllStats();
+  updatePracticeQueue();
+  renderPractice();
+}
+
+// ===== REVIEW QUEUE =====
+function getDueWords() {
+  return VOCAB_DATA.filter(e => isDueToday(e.id));
+}
+
+function renderReviewPanel() {
+  const dueWords = getDueWords();
+  const todayReviewed = appState.practiceHistory.filter(h => {
+    const d = new Date(h.timestamp).toISOString().split('T')[0];
+    return d === getTodayStr();
+  }).length;
+
+  document.getElementById('rvDueCount').textContent = dueWords.length;
+  document.getElementById('rvReviewedToday').textContent = todayReviewed;
+  document.getElementById('rvMasteredCount').textContent = appState.masteredWords.size;
+
+  // Review list
+  let listHtml = '';
+  if (dueWords.length === 0) {
+    listHtml = '<div class="review-empty">&#x1F389; 没有待复习的词汇，太棒了!</div>';
+  } else {
+    listHtml = '<table style="width:100%;border-collapse:collapse"><thead><tr><th>英文</th><th>中文</th><th>上次复习</th><th>间隔</th></tr></thead><tbody>';
+    dueWords.forEach(e => {
+      const rd = appState.reviewData[e.id] || {};
+      const lastReview = rd.lastReviewDate || '从未';
+      const interval = rd.interval || 0;
+      listHtml += `<tr>
+        <td style="font-weight:600;padding:8px 12px;border-bottom:1px solid #f0f0f0">${escapeHtml(e.english)}</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #f0f0f0">${escapeHtml(e.chinese)}</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:12px;color:#888">${lastReview}</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:12px;color:#888">${interval}天</td>
+      </tr>`;
+    });
+    listHtml += '</tbody></table>';
+  }
+  document.getElementById('reviewList').innerHTML = listHtml;
+
+  // Start review button
+  const btn = document.getElementById('btnStartReview');
+  btn.textContent = dueWords.length > 0 ? `\u25B6 开始复习 (${dueWords.length} 个待复习)` : '\u25B6 没有待复习词汇';
+  btn.disabled = dueWords.length === 0;
+
+  // Hide review practice card
+  document.getElementById('reviewPracticeCard').style.display = 'none';
+  appState.reviewActive = false;
+}
+
+function startReview() {
+  const dueWords = getDueWords();
+  if (dueWords.length === 0) return;
+
+  appState.reviewActive = true;
+  appState.reviewQueue = shuffleArray([...dueWords]);
+  appState.reviewIndex = 0;
+  appState.reviewAnswered = false;
+
+  document.getElementById('reviewList').parentElement.style.display = 'none';
+  document.getElementById('btnStartReview').style.display = 'none';
+  renderReviewWord();
+}
+
+function renderReviewWord() {
+  if (appState.reviewIndex >= appState.reviewQueue.length) {
+    // Done
+    document.getElementById('reviewPracticeCard').innerHTML = `
+      <div style="text-align:center;padding:40px">
+        <div style="font-size:48px;margin-bottom:16px">&#x1F389;</div>
+        <div style="font-size:20px;font-weight:700;color:#34a853;margin-bottom:8px">复习完成!</div>
+        <div style="color:#888;margin-bottom:20px">已复习 ${appState.reviewQueue.length} 个词汇</div>
+        <button class="btn-action btn-next show" onclick="finishReview()" style="display:inline-flex;margin:0 auto">
+          &#x21A9; 返回列表
+        </button>
+      </div>
+    `;
+    document.getElementById('reviewPracticeCard').style.display = '';
+    appState.reviewActive = false;
+    updateAllStats();
+    return;
+  }
+
+  const word = appState.reviewQueue[appState.reviewIndex];
+  const total = appState.reviewQueue.length;
+  const current = appState.reviewIndex + 1;
+
+  document.getElementById('reviewPracticeCard').style.display = '';
+  document.getElementById('reviewPracticeCard').innerHTML = `
+    <div class="practice-progress">
+      <span>复习 ${current} / ${total}</span>
+      <div class="progress-bar-wrap" style="flex:1;margin:0 16px"><div class="progress-bar-inner" style="width:${Math.round((appState.reviewIndex/total)*100)}%"></div></div>
+    </div>
+    <div class="practice-chinese">${escapeHtml(word.chinese)}</div>
+    <div class="practice-hint">
+      <span class="category-tag">${escapeHtml(word.category || '')}</span>
+      <span class="type-tag">${word.type === 'sentence' ? '句型' : '单词/短语'}</span>
+    </div>
+    <div class="practice-input-row">
+      <input type="text" class="practice-input" id="rvInput" placeholder="输入英文..." autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="btn-submit" id="rvBtnSubmit">&#x2713; 提交</button>
+    </div>
+    <div class="practice-feedback" id="rvFeedback"></div>
+    <div class="practice-actions">
+      <button class="btn-action btn-next" id="rvBtnNext" style="display:none">&#x27A1; 下一个</button>
+    </div>
+  `;
+
+  appState.reviewAnswered = false;
+
+  // Bind events
+  document.getElementById('rvInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      if (appState.reviewAnswered) rvGoNext();
+      else rvSubmitAnswer();
+    }
+  });
+  document.getElementById('rvBtnSubmit').addEventListener('click', rvSubmitAnswer);
+  document.getElementById('rvBtnNext').addEventListener('click', rvGoNext);
+  setTimeout(() => document.getElementById('rvInput').focus(), 100);
+}
+
+function rvSubmitAnswer() {
+  if (appState.reviewAnswered) return;
+  const word = appState.reviewQueue[appState.reviewIndex];
+  if (!word) return;
+
+  const input = document.getElementById('rvInput');
+  const feedback = document.getElementById('rvFeedback');
+  const btnNext = document.getElementById('rvBtnNext');
+  const btnSubmit = document.getElementById('rvBtnSubmit');
+
+  const userAnswer = normalizeAnswer(input.value);
+  const correctAnswer = normalizeAnswer(word.english);
+  const isCorrect = userAnswer === correctAnswer;
+
+  appState.reviewAnswered = true;
+
+  // Update accuracy and review data
+  appState.accuracyData.total += 1;
+  if (isCorrect) appState.accuracyData.correct += 1;
+  updateReviewData(word.id, isCorrect ? 4 : 1);
+
+  appState.practiceHistory.push({
+    wordId: word.id,
+    correct: isCorrect,
+    timestamp: Date.now(),
+  });
+
+  input.className = 'practice-input ' + (isCorrect ? 'correct' : 'incorrect');
+  feedback.className = 'practice-feedback show ' + (isCorrect ? 'correct' : 'incorrect');
+
+  if (isCorrect) {
+    feedback.innerHTML = `<div>&#x2705; <strong>正确!</strong></div><div class="feedback-answer">${escapeHtml(word.english)}</div>`;
+  } else {
+    feedback.innerHTML = `<div>&#x274C; <strong>不正确</strong></div><div>你的输入: <em>${escapeHtml(input.value.trim())}</em></div><div class="feedback-answer">正确答案: ${escapeHtml(word.english)}</div>`;
+  }
+
+  btnSubmit.style.display = 'none';
+  btnNext.style.display = '';
+  btnNext.focus();
+  saveState();
+}
+
+function rvGoNext() {
+  appState.reviewIndex++;
+  appState.reviewAnswered = false;
+  renderReviewWord();
+  document.getElementById('rvDueCount').textContent = getDueWords().length;
+}
+
+function finishReview() {
+  renderReviewPanel();
+  document.getElementById('reviewList').parentElement.style.display = '';
+  document.getElementById('btnStartReview').style.display = '';
+  document.getElementById('reviewPracticeCard').style.display = 'none';
+  appState.reviewActive = false;
+  updateAllStats();
+}
+
+// ===== STATISTICS =====
+function renderStats() {
+  const masteredCount = appState.masteredWords.size;
+  const totalCount = VOCAB_DATA.length;
+  const learningCount = totalCount - masteredCount - VOCAB_DATA.filter(e => getWordStatus(e.id) === 'not-learned').length;
+  const notLearnedCount = totalCount - masteredCount - Object.keys(appState.reviewData).filter(id => appState.reviewData[id].repetitions > 0).length;
+
+  const dueCount = getDueWords().length;
+  const todayReviewed = appState.practiceHistory.filter(h => {
+    const d = new Date(h.timestamp).toISOString().split('T')[0];
+    return d === getTodayStr();
+  }).length;
+
+  const accuracy = appState.accuracyData.total > 0
+    ? Math.round((appState.accuracyData.correct / appState.accuracyData.total) * 100)
+    : 0;
+
+  document.getElementById('stTotal').textContent = totalCount;
+  document.getElementById('stMastered').textContent = masteredCount;
+  document.getElementById('stReviewedToday').textContent = todayReviewed;
+  document.getElementById('stDueCount').textContent = dueCount;
+  document.getElementById('stAccuracy').textContent = accuracy + '%';
+  document.getElementById('stLearning').textContent = Object.keys(appState.reviewData).filter(id => appState.reviewData[id].repetitions > 0).length;
+
+  // Category breakdown
+  const catStats = {};
+  VOCAB_DATA.forEach(e => {
+    const key = e.categoryGroup || '其他';
+    if (!catStats[key]) catStats[key] = { total: 0, mastered: 0 };
+    catStats[key].total++;
+    if (appState.masteredWords.has(e.id)) catStats[key].mastered++;
+  });
+
+  let tableHtml = '<table><thead><tr><th>分类</th><th>总数</th><th>已掌握</th><th>掌握率</th></tr></thead><tbody>';
+  for (const [cat, stats] of Object.entries(catStats)) {
+    const rate = stats.total > 0 ? Math.round((stats.mastered / stats.total) * 100) : 0;
+    tableHtml += `<tr>
+      <td>${escapeHtml(cat)}</td>
+      <td>${stats.total}</td>
+      <td>${stats.mastered}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="flex:1;height:6px;background:#e8eaed;border-radius:3px;overflow:hidden">
+            <div style="height:100%;background:#34a853;border-radius:3px;width:${rate}%"></div>
+          </div>
+          <span style="font-size:12px;color:#888;min-width:35px">${rate}%</span>
+        </div>
+      </td>
+    </tr>`;
+  }
+  tableHtml += '</tbody></table>';
+  document.getElementById('statsTable').innerHTML = tableHtml;
+}
+
+function updateAllStats() {
+  if (appState.currentTab === 'stats') renderStats();
+  if (appState.currentTab === 'review') renderReviewPanel();
+}
+
+// ===== TAB SWITCHING =====
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    appState.currentTab = tab;
+
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
+
+    if (tab === 'wordbook') renderWordBook();
+    if (tab === 'review') renderReviewPanel();
+    if (tab === 'stats') renderStats();
+    if (tab === 'practice') renderPractice();
+  });
+});
+
+// ===== EVENT LISTENERS =====
+document.getElementById('practiceInput').addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft' && !e.ctrlKey && !e.altKey) {
+    if (appState.practiceIndex > 0 && !appState.reviewActive) goPrev();
+    return;
+  }
+  if (e.key === 'ArrowRight' && !e.ctrlKey && !e.altKey) {
+    if (!appState.reviewActive) { goNext(); }
+    return;
+  }
+  if (e.key === 'Enter') {
+    if (appState.practiceAnswered) goNext();
+    else submitAnswer();
+  }
+});
+
+document.getElementById('btnSubmit').addEventListener('click', submitAnswer);
+document.getElementById('btnNext').addEventListener('click', goNext);
+document.getElementById('btnPrev').addEventListener('click', goPrev);
+document.getElementById('btnSkip').addEventListener('click', goNext);
+document.getElementById('btnMastered').addEventListener('click', toggleMastered);
+document.getElementById('btnCopyCnToggle').addEventListener('click', () => {
+  appState.showCopyChinese = !appState.showCopyChinese;
+  const cnDiv = document.getElementById('practiceCopyCn');
+  const btn = document.getElementById('btnCopyCnToggle');
+  if (appState.showCopyChinese) {
+    cnDiv.classList.add('show');
+    btn.textContent = '\uD83D\uDC41 隐藏中文';
+  } else {
+    cnDiv.classList.remove('show');
+    btn.textContent = '\uD83D\uDC41 显示中文';
+  }
+  saveState();
+});
+document.getElementById('btnNotesToggle').addEventListener('click', () => {
+  document.getElementById('practiceNotes').classList.toggle('show');
+});
+
+document.getElementById('btnStartReview').addEventListener('click', startReview);
+document.getElementById('wbSearch').addEventListener('input', renderWordBook);
+document.getElementById('wbCategoryFilter').addEventListener('change', renderWordBook);
+document.getElementById('wbStatusFilter').addEventListener('change', renderWordBook);
+document.getElementById('wbTypeFilter').addEventListener('change', renderWordBook);
+
+// ===== INITIALIZATION =====
+function init() {
+  loadState();
+  buildSidebar();
+  populateWordbookCategories();
+  updatePracticeQueue();
+  renderPractice();
+  updateAllStats();
+}
+
+init();
+</script>
+
+</body>
+</html>
