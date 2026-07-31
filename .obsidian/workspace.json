@@ -4,37 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "b1b1447f2b458873",
+        "id": "73b67280efbc8f52",
         "type": "tabs",
         "children": [
           {
-            "id": "3334aed13b6d7050",
+            "id": "81d9562a8982677e",
             "type": "leaf",
             "state": {
-              "type": "pdf",
-              "state": {
-                "file": "408-数据结构/output_chapters/历年真题_第7章_查找.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "历年真题_第7章_查找"
-            }
-          },
-          {
-            "id": "5bb531e1c9618848",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "背诵.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "背诵"
+              "title": "新标签页"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -196,31 +179,34 @@
       "bases:新建数据库": false
     }
   },
-  "active": "5bb531e1c9618848",
+  "active": "81d9562a8982677e",
   "lastOpenFiles": [
+    "未命名.canvas",
+    "408-复习笔记/计组-Ch1-计算机系统概述.md",
+    "408-复习笔记/408-大纲-计组.md",
+    "未命名.base",
+    "408-复习笔记/各章分析.md",
+    "408-数据结构/output_chapters/历年真题_第7章_查找.pdf",
+    "408-数据结构/各章分析.md",
+    "背诵.md",
     "各章分析.md",
     "线性代数/06二次型.pdf",
     "线性代数/特征值相关知识点整理.md",
     "线性代数/秩相关知识点整理.md",
     "408-数据结构/K-图.md",
-    "408-复习笔记/各章分析.md",
-    "408-数据结构/各章分析.md",
     "408-数据结构/数据结构.pdf",
-    "408-复习笔记/408-大纲-计组.md",
     "408-复习笔记/408-大纲-OS.md",
     "408-复习笔记/408-复习笔记-MOC.md",
     "概率论/概率论七大分布公式速查手册.md",
     "概率论/公式总纲.md",
     "概率论/数理统计_参数估计.md",
     "概率论/数理统计_三大抽样分布与统计量.md",
-    "背诵.md",
     "政治",
     "学习顺序.md",
     "概率论/概率.pdf",
     "概率论/数理统计_假设检验.md",
     "408-数据结构/K-排序.md",
     "408-数据结构/DS-Ch8-排序.md",
-    "408-数据结构/output_chapters/历年真题_第7章_查找.pdf",
     "408-数据结构/K-树.md",
     "408-数据结构/K-查找.md",
     "english_reading/vocab_spelling.html",
@@ -229,9 +215,7 @@
     "408-数据结构/DS-Ch7-查找.md",
     "408-数据结构/DS-Ch6-图.md",
     "408-数据结构/output_chapters/历年真题_第2章_线性表.pdf",
-    "408-数据结构/output_chapters/历年真题_第2章_线性表.md",
     "408-数据结构/output_chapters/历年真题_第1章_绪论.pdf",
-    "408-数据结构/output_chapters/历年真题_第5章_树与二叉树.pdf",
-    "线性代数"
+    "408-数据结构/output_chapters/历年真题_第5章_树与二叉树.pdf"
   ]
 }
