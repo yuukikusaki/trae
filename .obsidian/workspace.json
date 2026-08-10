@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "73b67280efbc8f52",
+        "id": "baf3f7eab5911166",
         "type": "tabs",
         "children": [
           {
-            "id": "81d9562a8982677e",
+            "id": "8a9e28ac9dca2538",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "408-复习笔记/各章分析.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "新标签页"
+              "title": "各章分析"
             }
           }
         ]
@@ -37,7 +41,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": true
+                "autoReveal": true,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "文件列表"
@@ -179,8 +185,11 @@
       "bases:新建数据库": false
     }
   },
-  "active": "81d9562a8982677e",
+  "active": "8a9e28ac9dca2538",
   "lastOpenFiles": [
+    "线性代数/特征值相关知识点整理.md",
+    "线性代数/06二次型.pdf",
+    "线性代数/秩相关知识点整理.md",
     "未命名.canvas",
     "408-复习笔记/计组-Ch1-计算机系统概述.md",
     "408-复习笔记/408-大纲-计组.md",
@@ -190,9 +199,6 @@
     "408-数据结构/各章分析.md",
     "背诵.md",
     "各章分析.md",
-    "线性代数/06二次型.pdf",
-    "线性代数/特征值相关知识点整理.md",
-    "线性代数/秩相关知识点整理.md",
     "408-数据结构/K-图.md",
     "408-数据结构/数据结构.pdf",
     "408-复习笔记/408-大纲-OS.md",
